@@ -55,7 +55,7 @@ public class ResourceParseException extends JMathTeXException {
         super(msg);
     }
     
-    protected ResourceParseException(String msg, Throwable cause) {
+    public ResourceParseException(String msg, Throwable cause) {
         super(msg, cause);
     }
 }
