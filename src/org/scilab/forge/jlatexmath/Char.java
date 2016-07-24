@@ -46,7 +46,7 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Font;
+import org.scilab.forge.jlatexmath.platform.font.Font;
 
 /**
  * Represents a character together with its font, font ID and metric information.

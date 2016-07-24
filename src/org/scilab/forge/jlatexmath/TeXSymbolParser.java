@@ -48,11 +48,12 @@ package org.scilab.forge.jlatexmath;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.io.InputStream;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.scilab.forge.jlatexmath.platform.ParserAdapter;
+import org.scilab.forge.jlatexmath.platform.Resource;
+import org.scilab.forge.jlatexmath.platform.parser.Element;
+import org.scilab.forge.jlatexmath.platform.parser.NodeList;
+
 
 /**
  * Parses TeX symbol definitions from an XML-file.
@@ -67,15 +68,12 @@ public class TeXSymbolParser {
    private Element root;
 
    public TeXSymbolParser() throws ResourceParseException {
-       this(TeXSymbolParser.class.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME);
+       this(new Resource().loadResource(RESOURCE_NAME), RESOURCE_NAME);
    }
 
-    public TeXSymbolParser(InputStream file, String name) throws ResourceParseException {
+    public TeXSymbolParser(Object file, String name) throws ResourceParseException {
        try {
-	   DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	   factory.setIgnoringElementContentWhitespace(true);
-	   factory.setIgnoringComments(true);
-	   root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+           root = new ParserAdapter().createParserAndParseFile(file, true, true);
 	   // set possible valid symbol type mappings
 	   setTypeMappings();
        } catch (Exception e) { // JDOMException or IOException
@@ -88,7 +86,7 @@ public class TeXSymbolParser {
       // iterate all "symbol"-elements
       NodeList list = root.getElementsByTagName("Symbol");
       for (int i = 0; i < list.getLength(); i++) {
-	  Element symbol = (Element)list.item(i);
+	 Element symbol = list.item(i).castToElement();
          // retrieve and check required attributes
          String name = getAttrValueAndCheckIfNotNull("name", symbol), type = getAttrValueAndCheckIfNotNull(
                TYPE_ATTR, symbol);

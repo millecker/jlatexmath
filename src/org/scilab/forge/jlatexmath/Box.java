@@ -48,13 +48,15 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
+
 import java.util.LinkedList;
-import java.util.List;
+
+import org.scilab.forge.jlatexmath.platform.Geom;
+import org.scilab.forge.jlatexmath.platform.Graphics;
+import org.scilab.forge.jlatexmath.platform.graphics.BasicStroke;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Stroke;
 
 /**
  * An abstract graphical representation of a formula, that can be painted. All characters, font
@@ -75,6 +77,9 @@ public abstract class Box {
 
     public static boolean DEBUG = false;
 
+    protected Geom geom;
+    protected Graphics graphics;
+    
     /**
      * The foreground color of the whole box. Child boxes can override this color.
      * If it's null and it has a parent box, the foreground color of the parent will
@@ -166,6 +171,8 @@ public abstract class Box {
     protected Box(Color fg, Color bg) {
         foreground = fg;
         background = bg;
+        geom = new Geom();
+        graphics = new Graphics();
     }
 
     public void setParent(Box parent) {
@@ -267,7 +274,7 @@ public abstract class Box {
      * @param x the x-coordinate
      * @param y the y-coordinate
      */
-    public abstract void draw(Graphics2D g2, float x, float y);
+    public abstract void draw(Graphics2DInterface g2, float x, float y);
 
     /**
      * Get the id of the font that will be used the last when this box will be painted.
@@ -284,12 +291,13 @@ public abstract class Box {
      * @param x the x-coordinate
      * @param y the y-coordinate
      */
-    protected void startDraw(Graphics2D g2, float x, float y) {
+    protected void startDraw(Graphics2DInterface g2, float x, float y) {
         // old color
         prevColor = g2.getColor();
         if (background != null) { // draw background
             g2.setColor(background);
-            g2.fill(new Rectangle2D.Float(x, y - height, width, height + depth));
+            // TODO
+            //g2.fill(new Rectangle2D.Float(x, y - height, width, height + depth));
         }
         if (foreground == null) {
             g2.setColor(prevColor); // old foreground color
@@ -299,32 +307,32 @@ public abstract class Box {
         drawDebug(g2, x, y);
     }
 
-    protected void drawDebug(Graphics2D g2, float x, float y, boolean showDepth) {
+    protected void drawDebug(Graphics2DInterface g2, float x, float y, boolean showDepth) {
         if (DEBUG) {
             Stroke st = g2.getStroke();
             if (markForDEBUG != null) {
                 Color c = g2.getColor();
                 g2.setColor(markForDEBUG);
-                g2.fill(new Rectangle2D.Float(x, y - height, width, height + depth));
+                g2.fill(geom.createRectangle2D(x, y - height, width, height + depth));
                 g2.setColor(c);
             }
-            g2.setStroke(new BasicStroke((float) (Math.abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            g2.setStroke(graphics.createBasicStroke((float) (Math.abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             if (width < 0) {
                 x += width;
                 width = -width;
             }
-            g2.draw(new Rectangle2D.Float(x, y - height, width, height + depth));
+            g2.draw(geom.createRectangle2D(x, y - height, width, height + depth));
             if (showDepth) {
                 Color c = g2.getColor();
-                g2.setColor(Color.RED);
+                g2.setColor(ColorUtil.RED);
 		if (depth > 0) {
-		    g2.fill(new Rectangle2D.Float(x, y, width, depth));
+		    g2.fill(geom.createRectangle2D(x, y, width, depth));
 		    g2.setColor(c);
-		    g2.draw(new Rectangle2D.Float(x, y, width, depth));
+		    g2.draw(geom.createRectangle2D(x, y, width, depth));
 		} else if (depth < 0) {
-		    g2.fill(new Rectangle2D.Float(x, y + depth, width, -depth));
+		    g2.fill(geom.createRectangle2D(x, y + depth, width, -depth));
 		    g2.setColor(c);
-		    g2.draw(new Rectangle2D.Float(x, y + depth, width, -depth));
+		    g2.draw(geom.createRectangle2D(x, y + depth, width, -depth));
 		} else {
 		    g2.setColor(c);
 		}
@@ -333,7 +341,7 @@ public abstract class Box {
         }
     }
 
-    protected void drawDebug(Graphics2D g2, float x, float y) {
+    protected void drawDebug(Graphics2DInterface g2, float x, float y) {
         if (DEBUG) {
             drawDebug(g2, x, y, true);
         }
@@ -344,7 +352,7 @@ public abstract class Box {
      *
      * @param g2 the graphics (2D) context
      */
-    protected void endDraw(Graphics2D g2) {
+    protected void endDraw(Graphics2DInterface g2) {
         g2.setColor(prevColor);
     }
 }

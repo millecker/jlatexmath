@@ -46,9 +46,10 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.scilab.forge.jlatexmath.platform.font.Font;
 
 /**
  * Contains all the font information for 1 font.
@@ -308,7 +309,7 @@ public class FontInfo {
 	    if (base == null) {
 		font = DefaultTeXFontParser.createFont(path);
 	    } else {
-		font = DefaultTeXFontParser.createFont(base.getClass().getResourceAsStream(path), fontName);
+		font = DefaultTeXFontParser.createFont(base, path);
 	    }
 	}
         return font;

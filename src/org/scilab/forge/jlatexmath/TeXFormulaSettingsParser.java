@@ -46,14 +46,10 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.io.InputStream;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.scilab.forge.jlatexmath.platform.ParserAdapter;
+import org.scilab.forge.jlatexmath.platform.Resource;
+import org.scilab.forge.jlatexmath.platform.parser.Element;
+import org.scilab.forge.jlatexmath.platform.parser.NodeList;
 
 /**
  * Parses predefined TeXFormula's from an XML-file.
@@ -66,35 +62,32 @@ public class TeXFormulaSettingsParser {
     private Element root;
     
     public TeXFormulaSettingsParser() throws ResourceParseException {
-	this(GlueSettingsParser.class.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME);
+	this(new Resource().loadResource(TeXFormulaSettingsParser.class, RESOURCE_NAME), RESOURCE_NAME);
     }
 
-    public TeXFormulaSettingsParser(InputStream file, String name) throws ResourceParseException {
+    public TeXFormulaSettingsParser(Object file, String name) throws ResourceParseException {
 	try {
-   	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    factory.setIgnoringElementContentWhitespace(true);
-	    factory.setIgnoringComments(true);
-	    root = factory.newDocumentBuilder().parse(file).getDocumentElement();         
+	    root = new ParserAdapter().createParserAndParseFile(file, true, true);
 	} catch (Exception e) { // JDOMException or IOException
             throw new XMLResourceParseException(name, e);
         }
     }
 
     public void parseSymbolToFormulaMappings(String[] mappings, String[] textMappings) throws ResourceParseException {
-        Element charToSymbol = (Element)root.getElementsByTagName("CharacterToFormulaMappings").item(0);
+        Element charToSymbol = root.getElementsByTagName("CharacterToFormulaMappings").item(0).castToElement();
         if (charToSymbol != null) // element present
             addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
     }
 
     public void parseSymbolMappings(String[] mappings, String[] textMappings) throws ResourceParseException {
-        Element charToSymbol = (Element)root.getElementsByTagName("CharacterToSymbolMappings").item(0);
+        Element charToSymbol = root.getElementsByTagName("CharacterToSymbolMappings").item(0).castToElement();
         if (charToSymbol != null) // element present
             addToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
     }
 
     private static void addToMap(NodeList mapList, String[] tableMath, String[] tableText) throws ResourceParseException {
         for (int i = 0; i < mapList.getLength(); i++) {
-            Element map = (Element) mapList.item(i);
+            Element map = mapList.item(i).castToElement();
             String ch = map.getAttribute("char");
             String symbol = map.getAttribute("symbol");
 	    String text = map.getAttribute("text");
@@ -120,7 +113,7 @@ public class TeXFormulaSettingsParser {
 
     private static void addFormulaToMap(NodeList mapList, String[] tableMath, String[] tableText) throws ResourceParseException {
         for (int i = 0; i < mapList.getLength(); i++) {
-            Element map = (Element)mapList.item(i);
+            Element map = mapList.item(i).castToElement();
             String ch = map.getAttribute("char");
             String formula = map.getAttribute("formula");
 	    String text = map.getAttribute("text");

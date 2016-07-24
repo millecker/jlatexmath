@@ -46,15 +46,15 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Font;
 import java.util.Map;
+
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.platform.Resource;
+import org.scilab.forge.jlatexmath.platform.font.Font;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.lang.Character.UnicodeBlock;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.FileNotFoundException;
 
 /**
  * The default implementation of the TeXFont-interface. All font information is read
@@ -91,8 +91,8 @@ public class DefaultTeXFont implements TeXFont {
 
     protected static final int WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
 
-    public static List<Character.UnicodeBlock> loadedAlphabets = new ArrayList<Character.UnicodeBlock>();
-    public static Map<Character.UnicodeBlock, AlphabetRegistration> registeredAlphabets = new HashMap<Character.UnicodeBlock, AlphabetRegistration>();
+    public static List<UnicodeBlock> loadedAlphabets = new ArrayList<UnicodeBlock>();
+    public static Map<UnicodeBlock, AlphabetRegistration> registeredAlphabets = new HashMap<UnicodeBlock, AlphabetRegistration>();
 
     protected float factor = 1f;
 
@@ -105,7 +105,7 @@ public class DefaultTeXFont implements TeXFont {
     static {
         DefaultTeXFontParser parser = new DefaultTeXFontParser();
         //load LATIN block
-        loadedAlphabets.add(Character.UnicodeBlock.of('a'));
+        loadedAlphabets.add(UnicodeBlock.of('a'));
         // fonts + font descriptions
         fontInfo = parser.parseFontDescriptions(fontInfo);
         // general font parameters
@@ -151,23 +151,18 @@ public class DefaultTeXFont implements TeXFont {
     }
 
     public static void addTeXFontDescription(String file) throws ResourceParseException {
-        FileInputStream in;
-        try {
-            in = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            throw new ResourceParseException(file, e);
-        }
+        Object in = new Resource().loadResource(file);
         addTeXFontDescription(in, file);
     }
 
-    public static void addTeXFontDescription(InputStream in, String name) throws ResourceParseException {
+    public static void addTeXFontDescription(Object in, String name) throws ResourceParseException {
         DefaultTeXFontParser dtfp = new DefaultTeXFontParser(in, name);
         fontInfo = dtfp.parseFontDescriptions(fontInfo);
         textStyleMappings.putAll(dtfp.parseTextStyleMappings());
         symbolMappings.putAll(dtfp.parseSymbolMappings());
     }
 
-    public static void addTeXFontDescription(Object base, InputStream in, String name) throws ResourceParseException {
+    public static void addTeXFontDescription(Object base, Object in, String name) throws ResourceParseException {
         DefaultTeXFontParser dtfp = new DefaultTeXFontParser(base, in, name);
         fontInfo = dtfp.parseFontDescriptions(fontInfo);
         dtfp.parseExtraPath();
@@ -175,7 +170,7 @@ public class DefaultTeXFont implements TeXFont {
         symbolMappings.putAll(dtfp.parseSymbolMappings());
     }
 
-    public static void addAlphabet(Character.UnicodeBlock alphabet, InputStream inlanguage, String language, InputStream insymbols, String symbols, InputStream inmappings, String mappings) throws ResourceParseException {
+    public static void addAlphabet(UnicodeBlock alphabet, Object inlanguage, String language, Object insymbols, String symbols, Object inmappings, String mappings) throws ResourceParseException {
         if (!loadedAlphabets.contains(alphabet)) {
             addTeXFontDescription(inlanguage, language);
             SymbolAtom.addSymbolAtom(insymbols, symbols);
@@ -184,14 +179,14 @@ public class DefaultTeXFont implements TeXFont {
         }
     }
 
-    public static void addAlphabet(Object base, Character.UnicodeBlock[] alphabet, String language) throws ResourceParseException {
+    public static void addAlphabet(Object base, UnicodeBlock[] alphabet, String language) throws ResourceParseException {
         boolean b = false;
         for (int i = 0; !b && i < alphabet.length; i++) {
             b = loadedAlphabets.contains(alphabet[i]) || b;
         }
         if (!b) {
             TeXParser.isLoading = true;
-            addTeXFontDescription(base, base.getClass().getResourceAsStream(language), language);
+            addTeXFontDescription(base, new Resource().loadResource(base, language), language);
             for (int i = 0; i < alphabet.length; i++) {
                 loadedAlphabets.add(alphabet[i]);
             }
@@ -199,13 +194,14 @@ public class DefaultTeXFont implements TeXFont {
         }
     }
 
-    public static void addAlphabet(Character.UnicodeBlock alphabet, String name) {
+    public static void addAlphabet(UnicodeBlock alphabet, String name) {
         String lg = "fonts/" + name + "/language_" + name+ ".xml";
         String sym = "fonts/" + name + "/symbols_" + name+ ".xml";
         String map = "fonts/" + name + "/mappings_" + name+ ".xml";
-
+        
+        Resource resource = new Resource();
         try {
-            DefaultTeXFont.addAlphabet(alphabet, TeXFormula.class.getResourceAsStream(lg), lg, TeXFormula.class.getResourceAsStream(sym), sym, TeXFormula.class.getResourceAsStream(map), map);
+            DefaultTeXFont.addAlphabet(alphabet, resource.loadResource(lg), lg, resource.loadResource(sym), sym, resource.loadResource(map), map);
         } catch (FontAlreadyLoadedException e) { }
     }
 
@@ -221,7 +217,7 @@ public class DefaultTeXFont implements TeXFont {
     }
 
     public static void registerAlphabet(AlphabetRegistration reg) {
-        Character.UnicodeBlock[] blocks = reg.getUnicodeBlock();
+        UnicodeBlock[] blocks = reg.getUnicodeBlock();
         for (int i = 0; i < blocks.length; i++) {
             registeredAlphabets.put(blocks[i], reg);
         }

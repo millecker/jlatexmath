@@ -47,11 +47,10 @@
 package org.scilab.forge.jlatexmath;
 
 import java.util.Map;
-import java.io.InputStream;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.scilab.forge.jlatexmath.platform.ParserAdapter;
+import org.scilab.forge.jlatexmath.platform.parser.Element;
+import org.scilab.forge.jlatexmath.platform.parser.NodeList;
 
 /**
  * Parses and creates predefined TeXFormula objects form an XML-file.
@@ -65,13 +64,10 @@ public class PredefinedTeXFormulaParser {
     private Element root;
     private String type;
         
-    public PredefinedTeXFormulaParser(InputStream file, String type) throws ResourceParseException {
+    public PredefinedTeXFormulaParser(Object file, String type) throws ResourceParseException {
         try {
 	    this.type = type;
-	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    factory.setIgnoringElementContentWhitespace(true);
-	    factory.setIgnoringComments(true);
-	    root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+	    root = new ParserAdapter().createParserAndParseFile(file, true, true);
 	} catch (Exception e) { // JDOMException or IOException
             throw new XMLResourceParseException("", e);
         }
@@ -88,7 +84,7 @@ public class PredefinedTeXFormulaParser {
             // iterate all "Font"-elements
 	    NodeList list = root.getElementsByTagName(this.type);
             for (int i = 0; i < list.getLength(); i++) {
-                Element formula = (Element)list.item(i);
+                Element formula = list.item(i).castToElement();
                 // get required string attribute
                 String enabled = getAttrValueAndCheckIfNotNull("enabled", formula);
                 if ("true".equals (enabled)) { // parse this formula

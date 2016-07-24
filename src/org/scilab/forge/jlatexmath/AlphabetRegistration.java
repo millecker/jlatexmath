@@ -45,14 +45,14 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.lang.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 
 public interface AlphabetRegistration {
     
-    public static final Character.UnicodeBlock[] JLM_GREEK = new Character.UnicodeBlock[]{Character.UnicodeBlock.GREEK, Character.UnicodeBlock.GREEK_EXTENDED};
-    public static final	Character.UnicodeBlock[] JLM_CYRILLIC = new Character.UnicodeBlock[]{Character.UnicodeBlock.CYRILLIC};
+    public static final UnicodeBlock[] JLM_GREEK = new UnicodeBlock[]{UnicodeBlock.GREEK, UnicodeBlock.GREEK_EXTENDED};
+    public static final	UnicodeBlock[] JLM_CYRILLIC = new UnicodeBlock[]{UnicodeBlock.CYRILLIC};
     
-    public Character.UnicodeBlock[] getUnicodeBlock();
+    public UnicodeBlock[] getUnicodeBlock();
     
     public Object getPackage() throws AlphabetRegistrationException;
 

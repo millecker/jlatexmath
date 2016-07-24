@@ -46,14 +46,13 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.parser.Element;
+import org.scilab.forge.jlatexmath.platform.parser.Node;
+import org.scilab.forge.jlatexmath.platform.parser.NodeList;
 
 /**
  * Parses a "TeXFormula"-element representing a predefined TeXFormula's from an XML-file.
@@ -394,7 +393,7 @@ public class TeXFormulaParser {
         classMappings.put("int", int.class);
         classMappings.put("boolean", boolean.class);
         classMappings.put("char", char.class);
-        classMappings.put("ColorConstant", Color.class);
+        classMappings.put("ColorConstant", ColorUtil.class);
     }
 
     public TeXFormulaParser(String name, Element formula, String type) {
@@ -428,7 +427,7 @@ public class TeXFormulaParser {
         for (int i = 0; i < list.getLength(); i++) {
             Node node = list.item(i);
             if (node.getNodeType() != Node.TEXT_NODE) {
-                Element el = (Element)node;
+                Element el = node.castToElement();
                 ActionParser p = actionParsers.get(el.getTagName());
                 if (p != null) {// ignore unknown elements
                     p.parse(el);
@@ -442,7 +441,7 @@ public class TeXFormulaParser {
         Object[] res = new Object[args.getLength()];
         int i = 0;
         for (int j = 0; j < args.getLength(); j++) {
-            Element arg = (Element)args.item(j);
+            Element arg = args.item(j).castToElement();
             // get required string attribute
             String type = getAttrValueAndCheckIfNotNull("type", arg);
             // get value, not present means a nullpointer
@@ -460,7 +459,7 @@ public class TeXFormulaParser {
         Class[] res = new Class[args.getLength()];
         int i = 0;
         for (int j = 0; j < args.getLength(); j++) {
-            Element arg = (Element)args.item(j);
+            Element arg = args.item(j).castToElement();
             // get required string attribute
             String type = getAttrValueAndCheckIfNotNull("type", arg);
             // find class mapping

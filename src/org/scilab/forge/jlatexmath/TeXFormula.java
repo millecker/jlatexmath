@@ -55,23 +55,11 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.Stack;
-import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.image.BufferedImage;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
-import java.lang.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.platform.Resource;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Image;
+import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 
 /**
  * Represents a logical mathematical formula that will be displayed (by creating a
@@ -168,16 +156,11 @@ public class TeXFormula {
     }
 
     public static void addSymbolMappings(String file) throws ResourceParseException {
-        FileInputStream in;
-        try {
-            in = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            throw new ResourceParseException(file, e);
-        }
+        Object in = new Resource().loadResource(file);
         addSymbolMappings(in, file);
     }
 
-    public static void addSymbolMappings(InputStream in, String name) throws ResourceParseException {
+    public static void addSymbolMappings(Object in, String name) throws ResourceParseException {
         TeXFormulaSettingsParser tfsp = new TeXFormulaSettingsParser(in, name);
         tfsp.parseSymbolMappings(symbolMappings, symbolTextMappings);
         tfsp.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
@@ -224,9 +207,9 @@ public class TeXFormula {
      * Set the default target DPI to the screen dpi (only if we're in non-headless mode)
      */
     public static void setDefaultDPI() {
-        if (!GraphicsEnvironment.isHeadless()) {
-            setDPITarget((float) Toolkit.getDefaultToolkit().getScreenResolution());
-        }
+        //if (!GraphicsEnvironment.isHeadless()) {
+      //    setDPITarget((float) Toolkit.getDefaultToolkit().getScreenResolution());
+      //}
     }
 
     // the root atom of the "atom tree" that represents the formula
@@ -536,11 +519,11 @@ public class TeXFormula {
         return this;
     }
 
-    public static void addPredefinedTeXFormula(InputStream xmlFile) throws ResourceParseException {
+    public static void addPredefinedTeXFormula(Object xmlFile) throws ResourceParseException {
         new PredefinedTeXFormulaParser(xmlFile, "TeXFormula").parse(predefinedTeXFormulas);
     }
 
-    public static void addPredefinedCommands(InputStream xmlFile) throws ResourceParseException {
+    public static void addPredefinedCommands(Object xmlFile) throws ResourceParseException {
         new PredefinedTeXFormulaParser(xmlFile, "Command").parse(MacroInfo.Commands);
     }
 
@@ -929,7 +912,7 @@ public class TeXFormula {
             g2.fillRect(0, 0, w, h);
         }
 
-        icon.setForeground(fg == null ? Color.BLACK : fg);
+        icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
         icon.paintIcon(null, g2, 0, 0);
         g2.dispose();
 

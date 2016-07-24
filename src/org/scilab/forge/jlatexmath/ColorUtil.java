@@ -31,18 +31,15 @@ public class ColorUtil {
     CYAN = GRAPHICS_FACTORY.createColor(0, 255, 255);
     MAGENTA = GRAPHICS_FACTORY.createColor(255, 0, 255);
     YELLOW = GRAPHICS_FACTORY.createColor(255, 255, 0);
-    COLOR_CONSTANTS = new HashMap<String, Color>() {
-      {
-        put("RED", RED);
-        put("BLACK", BLACK);
-        put("WHITE", WHITE);
-        put("BLUE", BLUE);
-        put("GREEN", GREEN);
-        put("CYAN", CYAN);
-        put("MAGENTA", MAGENTA);
-        put("YELLOW", YELLOW);
-      }
-    };
+    COLOR_CONSTANTS = new HashMap<String, Color>();
+    COLOR_CONSTANTS.put("RED", RED);
+    COLOR_CONSTANTS.put("BLACK", BLACK);
+    COLOR_CONSTANTS.put("WHITE", WHITE);
+    COLOR_CONSTANTS.put("BLUE", BLUE);
+    COLOR_CONSTANTS.put("GREEN", GREEN);
+    COLOR_CONSTANTS.put("CYAN", CYAN);
+    COLOR_CONSTANTS.put("MAGENTA", MAGENTA);
+    COLOR_CONSTANTS.put("YELLOW", YELLOW);
     sb = new StringBuilder("#");
   }
 

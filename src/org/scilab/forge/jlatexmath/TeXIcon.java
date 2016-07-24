@@ -49,15 +49,13 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
 
-import javax.swing.Icon;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
+import org.scilab.forge.jlatexmath.platform.graphics.Icon;
+import org.scilab.forge.jlatexmath.platform.graphics.Insets;
+import org.scilab.forge.jlatexmath.platform.graphics.RenderingHints;
 
 /**
  * An {@link javax.swing.Icon} implementation that will paint the TeXFormula
@@ -70,7 +68,7 @@ import javax.swing.Icon;
  */
 public class TeXIcon implements Icon {
 
-    private static final Color defaultColor = new Color(0, 0, 0);
+    private static final Color defaultColor = ColorUtil.BLACK;
 
     public static float defaultSize = -1;
     public static float magFactor = 0;
@@ -241,11 +239,11 @@ public class TeXIcon implements Icon {
     /**
      * Paint the {@link TeXFormula} that created this icon.
      */
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        Graphics2D g2 = (Graphics2D) g;
+    public void paintIcon(HasForegroundColor c, Graphics2DInterface g2, int x, int y) {
         // copy graphics settings
-        RenderingHints oldHints = g2.getRenderingHints();
-        AffineTransform oldAt = g2.getTransform();
+        g2.saveTransformation();
+        // RenderingHints oldHints = g2.getRenderingHints();
+        // AffineTransform oldAt = g2.getTransform();
         Color oldColor = g2.getColor();
 
         // new settings
@@ -260,7 +258,7 @@ public class TeXIcon implements Icon {
         if (fg != null) {
             g2.setColor(fg);
         } else if (c != null) {
-            g2.setColor(c.getForeground()); // foreground will be used as default painting color
+            g2.setColor(c.getForegroundColor()); // foreground will be used as default painting color
         } else {
             g2.setColor(defaultColor);
         }
@@ -269,8 +267,9 @@ public class TeXIcon implements Icon {
         box.draw(g2, (x + insets.left) / size, (y + insets.top) / size+ box.getHeight());
 
         // restore graphics settings
-        g2.setRenderingHints(oldHints);
-        g2.setTransform(oldAt);
+        g2.restoreTransformation();
+        // g2.setRenderingHints(oldHints);
+        // g2.setTransform(oldAt);
         g2.setColor(oldColor);
     }
 }
