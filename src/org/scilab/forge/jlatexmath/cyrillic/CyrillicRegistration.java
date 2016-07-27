@@ -45,17 +45,16 @@
 
 package org.scilab.forge.jlatexmath.cyrillic;
 
-import java.lang.Character.UnicodeBlock;
-
 import org.scilab.forge.jlatexmath.AlphabetRegistration;
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 
 public class CyrillicRegistration implements AlphabetRegistration {
 
     public CyrillicRegistration() {
     }
 
-    public Character.UnicodeBlock[] getUnicodeBlock() {
-	return new Character.UnicodeBlock[]{Character.UnicodeBlock.CYRILLIC};
+    public UnicodeBlock[] getUnicodeBlock() {
+	return new UnicodeBlock[]{UnicodeBlock.CYRILLIC};
     }
 
     public Object getPackage() {

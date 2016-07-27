@@ -330,8 +330,7 @@ public class TeXFormulaParser {
             checkNullValue(value, type);
             try {
                 // get constant value (if present)
-                int constant = TeXConstants.class.getDeclaredField(value).getInt(
-                    null);
+                int constant = TeXConstants.CONSTANTS_MAP.get(value);
                 // return constant integer value
                 return Integer.valueOf(constant);
             } catch (Exception e) {
@@ -354,7 +353,7 @@ public class TeXFormulaParser {
             checkNullValue(value, type);
             try {
                 // return Color constant (if present)
-                return Color.class.getDeclaredField(value).get(null);
+                return ColorUtil.COLOR_CONSTANTS.get(value);
             } catch (Exception e) {
                 throw new XMLResourceParseException(
                     PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",

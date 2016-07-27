@@ -49,6 +49,7 @@ package org.scilab.forge.jlatexmath;
 import java.util.Map;
 
 import org.scilab.forge.jlatexmath.platform.ParserAdapter;
+import org.scilab.forge.jlatexmath.platform.Resource;
 import org.scilab.forge.jlatexmath.platform.parser.Element;
 import org.scilab.forge.jlatexmath.platform.parser.NodeList;
 
@@ -74,7 +75,7 @@ public class PredefinedTeXFormulaParser {
     }
     
     public PredefinedTeXFormulaParser(String PredefFile, String type) throws ResourceParseException {
-        this(PredefinedTeXFormulaParser.class.getResourceAsStream(PredefFile), type);
+        this(new Resource().loadResource(PredefinedTeXFormulaParser.class, PredefFile), type);
     }
 
     public void parse(Map predefinedTeXFormulas) {

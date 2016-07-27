@@ -87,7 +87,8 @@ public class CharBox extends Box {
 	}
 	arr[0] = cf.c;
 	g2.drawChars(arr, 0, 1, 0, 0);
-	g2.setTransform(at);
+	//g2.setTransform(at);
+	g2.restoreTransformation();
     }
     
     public int getLastFontId() {

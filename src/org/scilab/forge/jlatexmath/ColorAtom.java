@@ -46,10 +46,12 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.scilab.forge.jlatexmath.platform.Graphics;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
 
 /**
  * An atom representing the foreground and background color of an other atom.
@@ -124,19 +126,20 @@ public class ColorAtom extends Atom implements Row {
 
     public static Color getColor(String s) {
         if (s != null) {
+            Graphics graphics = new Graphics();
             s = s.trim();
             if (s.length() >= 1) {
                 if (s.charAt(0) == '#') {
-                    return Color.decode(s);
+                    return ColorUtil.decode(s);
                 } else if (s.indexOf(',') != -1 || s.indexOf(';') != -1) {
-                    StringTokenizer toks = new StringTokenizer(s, ";,");
-                    int n = toks.countTokens();
+                    String[] toks = s.split(";,");
+                    int n = toks.length;
                     if (n == 3) {
                         // RGB model
                         try  {
-                            String R = toks.nextToken().trim();
-                            String G = toks.nextToken().trim();
-                            String B = toks.nextToken().trim();
+                            String R = toks[0].trim();
+                            String G = toks[1].trim();
+                            String B = toks[2].trim();
 
                             float r = Float.parseFloat(R);
                             float g = Float.parseFloat(G);
@@ -146,23 +149,23 @@ public class ColorAtom extends Atom implements Row {
                                 int ir = (int) Math.min(255, Math.max(0, r));
                                 int ig = (int) Math.min(255, Math.max(0, g));
                                 int ib = (int) Math.min(255, Math.max(0, b));
-                                return new Color(ir, ig, ib);
+                                return graphics.createColor(ir, ig, ib);
                             } else {
                                 r = (float) Math.min(1, Math.max(0, r));
                                 g = (float) Math.min(1, Math.max(0, g));
                                 b = (float) Math.min(1, Math.max(0, b));
-                                return new Color(r, g, b);
+                                return graphics.createColor(r, g, b);
                             }
                         } catch (NumberFormatException e) {
-                            return Color.black;
+                            return ColorUtil.BLACK;
                         }
                     } else if (n == 4) {
                         // CMYK model
                         try  {
-                            float c = Float.parseFloat(toks.nextToken().trim());
-                            float m = Float.parseFloat(toks.nextToken().trim());
-                            float y = Float.parseFloat(toks.nextToken().trim());
-                            float k = Float.parseFloat(toks.nextToken().trim());
+                            float c = Float.parseFloat(toks[0].trim());
+                            float m = Float.parseFloat(toks[1].trim());
+                            float y = Float.parseFloat(toks[2].trim());
+                            float k = Float.parseFloat(toks[3].trim());
 
                             c = (float) Math.min(1, Math.max(0, c));
                             m = (float) Math.min(1, Math.max(0, m));
@@ -171,7 +174,7 @@ public class ColorAtom extends Atom implements Row {
 
                             return convColor(c, m, y, k);
                         } catch (NumberFormatException e) {
-                            return Color.black;
+                            return ColorUtil.BLACK;
                         }
                     }
                 }
@@ -184,27 +187,27 @@ public class ColorAtom extends Atom implements Row {
                         try {
                             float g = (float) Math.min(1, Math.max(Float.parseFloat(s), 0));
 
-                            return new Color(g, g, g);
+                            return graphics.createColor(g, g, g);
                         } catch (NumberFormatException e) { }
                     }
 
-                    return Color.decode("#" + s);
+                    return ColorUtil.decode("#" + s);
                 }
             }
         }
 
-        return Color.black;
+        return ColorUtil.BLACK;
     }
 
     private static void initColors() {
-        Colors.put("black", Color.black);
-        Colors.put("white", Color.white);
-        Colors.put("red", Color.red);
-        Colors.put("green", Color.green);
-        Colors.put("blue", Color.blue);
-        Colors.put("cyan", Color.cyan);
-        Colors.put("magenta", Color.magenta);
-        Colors.put("yellow", Color.yellow);
+        Colors.put("black", ColorUtil.BLACK);
+        Colors.put("white", ColorUtil.WHITE);
+        Colors.put("red", ColorUtil.RED);
+        Colors.put("green", ColorUtil.GREEN);
+        Colors.put("blue", ColorUtil.BLUE);
+        Colors.put("cyan", ColorUtil.CYAN);
+        Colors.put("magenta", ColorUtil.MAGENTA);
+        Colors.put("yellow", ColorUtil.YELLOW);
         Colors.put("greenyellow", convColor(0.15f, 0f, 0.69f, 0f));
         Colors.put("goldenrod", convColor(0f, 0.10f, 0.84f, 0f));
         Colors.put("dandelion", convColor(0f, 0.29f, 0.84f, 0f));
@@ -270,6 +273,6 @@ public class ColorAtom extends Atom implements Row {
 
     private static Color convColor(final float c, final float m, final float y, final float k) {
         final float kk = 1f - k;
-        return new Color(kk * (1f - c), kk * (1f - m), kk * (1f - y));
+        return new Graphics().createColor(kk * (1f - c), kk * (1f - m), kk * (1f - y));
     }
 }

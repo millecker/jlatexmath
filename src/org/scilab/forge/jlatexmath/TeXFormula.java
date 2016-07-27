@@ -49,15 +49,17 @@
 package org.scilab.forge.jlatexmath;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Set;
-import java.util.Stack;
 
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration;
+import org.scilab.forge.jlatexmath.greek.GreekRegistration;
+import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.Resource;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 
@@ -129,7 +131,7 @@ public class TeXFormula {
     public static String[] symbolMappings = new String[65536];
     public static String[] symbolTextMappings = new String[65536];
     public static String[] symbolFormulaMappings = new String[65536];
-    public static Map<Character.UnicodeBlock, FontInfos> externalFontMap = new HashMap<Character.UnicodeBlock, FontInfos>();
+    public static Map<UnicodeBlock, FontInfos> externalFontMap = new HashMap<UnicodeBlock, FontInfos>();
 
     public List<MiddleAtom> middle = new LinkedList<MiddleAtom>();
 
@@ -148,8 +150,8 @@ public class TeXFormula {
         parser.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
 
         try {
-            DefaultTeXFont.registerAlphabet((AlphabetRegistration) Class.forName("org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration").newInstance());
-            DefaultTeXFont.registerAlphabet((AlphabetRegistration) Class.forName("org.scilab.forge.jlatexmath.greek.GreekRegistration").newInstance());
+            DefaultTeXFont.registerAlphabet((AlphabetRegistration) new CyrillicRegistration());
+            DefaultTeXFont.registerAlphabet((AlphabetRegistration) new GreekRegistration());
         } catch (Exception e) { }
 
         //setDefaultDPI();
@@ -166,11 +168,11 @@ public class TeXFormula {
         tfsp.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
     }
 
-    public static boolean isRegisteredBlock(Character.UnicodeBlock block) {
+    public static boolean isRegisteredBlock(UnicodeBlock block) {
 	return externalFontMap.get(block) != null;
     }
 
-    public static FontInfos getExternalFont(Character.UnicodeBlock block) {
+    public static FontInfos getExternalFont(UnicodeBlock block) {
         FontInfos infos = externalFontMap.get(block);
         if (infos == null) {
             infos = new FontInfos("SansSerif", "Serif");
@@ -180,18 +182,18 @@ public class TeXFormula {
         return infos;
     }
 
-    public static void registerExternalFont(Character.UnicodeBlock block, String sansserif, String serif) {
+    public static void registerExternalFont(UnicodeBlock block, String sansserif, String serif) {
         if (sansserif == null && serif == null) {
             externalFontMap.remove(block);
             return;
         }
         externalFontMap.put(block, new FontInfos(sansserif, serif));
-        if (block.equals(Character.UnicodeBlock.BASIC_LATIN)) {
+        if (block.equals(UnicodeBlock.BASIC_LATIN)) {
             predefinedTeXFormulas.clear();
         }
     }
 
-    public static void registerExternalFont(Character.UnicodeBlock block, String fontName) {
+    public static void registerExternalFont(UnicodeBlock block, String fontName) {
         registerExternalFont(block, fontName, fontName);
     }
 
@@ -854,6 +856,8 @@ public class TeXFormula {
     }
 
     public void createImage(String format, int style, float size, String out, Color bg, Color fg, boolean transparency) {
+        throw new UnsupportedOperationException();
+        /*
         TeXIcon icon = createTeXIcon(style, size);
         icon.setInsets(new Insets(1, 1, 1, 1));
         int w = icon.getIconWidth(), h = icon.getIconHeight();
@@ -877,6 +881,7 @@ public class TeXFormula {
         }
 
         g2.dispose();
+        */
     }
 
     public void createPNG(int style, float size, String out, Color bg, Color fg) {
@@ -905,8 +910,8 @@ public class TeXFormula {
         icon.setInsets(new Insets(2, 2, 2, 2));
         int w = icon.getIconWidth(), h = icon.getIconHeight();
 
-        BufferedImage image = new BufferedImage(w, h, bg == null ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = image.createGraphics();
+        Image image = new Graphics().createImage(w, h, bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
+        Graphics2DInterface g2 = image.createGraphics2D();
         if (bg != null) {
             g2.setColor(bg);
             g2.fillRect(0, 0, w, h);
@@ -931,14 +936,14 @@ public class TeXFormula {
         icon.setInsets(new Insets(2, 2, 2, 2));
         int w = icon.getIconWidth(), h = icon.getIconHeight();
 
-        BufferedImage image = new BufferedImage(w, h, bg == null ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = image.createGraphics();
+        Image image = new Graphics().createImage(w, h, bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
+        Graphics2DInterface g2 = image.createGraphics2D();
         if (bg != null) {
             g2.setColor(bg);
             g2.fillRect(0, 0, w, h);
         }
 
-        icon.setForeground(fg == null ? Color.BLACK : fg);
+        icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
         icon.paintIcon(null, g2, 0, 0);
         g2.dispose();
 
