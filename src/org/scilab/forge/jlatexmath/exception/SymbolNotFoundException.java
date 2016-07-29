@@ -1,4 +1,4 @@
-/* InvalidDelimiterTypeException.java
+/* SymbolNotFoundException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,18 +44,20 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
+
+import org.scilab.forge.jlatexmath.TeXSymbolParser;
 
 /**
- * Signals that an unknown delimiter type constant was used.
+ * Signals that an unknown symbol was used.
  * 
  * @author Kurt Vermeulen
  */
-public class InvalidDelimiterTypeException extends JMathTeXException {
+public class SymbolNotFoundException extends JMathTeXException {
 
-    protected InvalidDelimiterTypeException() {
-	super(
-	      "The delimiter type was not valid! "
-	      + "Use one of the delimiter type constants from the class 'TeXConstants'.");
+    public SymbolNotFoundException(String name) {
+	super("There's no symbol with the name '" + name + "' defined in '"
+	      + TeXSymbolParser.RESOURCE_NAME + "'!");
     }
+    
 }

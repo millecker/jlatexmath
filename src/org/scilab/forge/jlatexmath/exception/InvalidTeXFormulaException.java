@@ -1,4 +1,4 @@
-/* SymbolMappingNotFoundException.java
+/* InvalidTeXFormulaException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,18 +44,16 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
 /**
- * Signals a missing symbol mapping.
+ * Signals that an invalid TeXFormula was used.
  * 
  * @author Kurt Vermeulen
  */
-public class SymbolMappingNotFoundException extends JMathTeXException {
+public class InvalidTeXFormulaException extends JMathTeXException {
 
-    protected SymbolMappingNotFoundException(String symbolName) {
-	super("No mapping found for the symbol '" + symbolName + "'! "
-	      + "Insert a <" + DefaultTeXFontParser.SYMBOL_MAPPING_EL
-	      + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.");
+    public InvalidTeXFormulaException(String msg) {
+	super(msg);
     }
 }

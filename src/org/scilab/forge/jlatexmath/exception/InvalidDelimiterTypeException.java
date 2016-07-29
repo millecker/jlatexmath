@@ -1,4 +1,4 @@
-/* InvalidMatrixException.java
+/* InvalidDelimiterTypeException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,16 +44,18 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
 /**
- * Signals a problem of dimensions in the matrix.
- *
- * @author Calixte Denizet
+ * Signals that an unknown delimiter type constant was used.
+ * 
+ * @author Kurt Vermeulen
  */
-public class InvalidMatrixException extends JMathTeXException {
+public class InvalidDelimiterTypeException extends JMathTeXException {
 
-   protected InvalidMatrixException(String msg) {
-      super(msg);
-   }
+    protected InvalidDelimiterTypeException() {
+	super(
+	      "The delimiter type was not valid! "
+	      + "Use one of the delimiter type constants from the class 'TeXConstants'.");
+    }
 }

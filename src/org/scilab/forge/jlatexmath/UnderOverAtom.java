@@ -46,6 +46,8 @@
 
 package org.scilab.forge.jlatexmath;
 
+import org.scilab.forge.jlatexmath.exception.InvalidUnitException;
+
 /**
  * An atom representing another atom with an atom above it (if not null) seperated
  * by a kern and in a smaller size depending on "overScriptSize" and/or an atom under

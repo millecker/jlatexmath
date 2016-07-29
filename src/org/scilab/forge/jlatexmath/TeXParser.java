@@ -49,6 +49,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.exception.FormulaNotFoundException;
+import org.scilab.forge.jlatexmath.exception.ParseException;
+import org.scilab.forge.jlatexmath.exception.SymbolNotFoundException;
 
 /**
  * This class implements a parser for LaTeX' formulas.

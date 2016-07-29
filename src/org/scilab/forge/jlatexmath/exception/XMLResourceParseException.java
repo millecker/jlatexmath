@@ -1,7 +1,8 @@
-/* AlphabetRegistrationException.java
+/* XMLResourceParseException.java
  * =========================================================================
- * This file is originally of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
+ * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
+ * Copyright (C) 2004-2007 Universiteit Gent
  * Copyright (C) 2009 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
@@ -43,14 +44,46 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
-/**
- * Signals that an error occured while registering an alphabet
- */
-public class AlphabetRegistrationException extends Exception {
-    
-    protected AlphabetRegistrationException(String str) {
-        super(str);
+public class XMLResourceParseException extends ResourceParseException {
+
+    /*
+     * Attribute problem
+     */
+    public XMLResourceParseException(String resourceName, String elementName, String attributeName, String msg) {
+        super(resourceName + ": invalid <" + elementName
+              + ">-element found: attribute '" + attributeName + "' "
+              + (msg == null ? "is required!" : msg));
+    }
+
+    /*
+     * Attribute problem
+     */
+    public XMLResourceParseException(String resourceName, String elementName, String attributeName, String msg, Throwable e) {
+        super(resourceName + ": invalid <" + elementName
+              + ">-element found: attribute '" + attributeName + "' "
+              + (msg == null ? "is required!" : msg), e);
+    }
+    /*
+     * required element missing
+     */
+    public XMLResourceParseException(String resourceName, String elementName) {
+        super(resourceName + ": the required <" + elementName
+              + ">-element is not found!");
+    }
+
+    /*
+     * JDOMException or IOException
+     */
+    public XMLResourceParseException(String resourceName, Throwable e) {
+        super(resourceName, e);
+    }
+
+    /*
+     * for other cases
+     */
+    public XMLResourceParseException(String msg) {
+        super(msg);
     }
 }

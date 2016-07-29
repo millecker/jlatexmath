@@ -1,6 +1,6 @@
 package org.scilab.forge.jlatexmath.platform.font;
 
-import org.scilab.forge.jlatexmath.ResourceParseException;
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 
 public interface FontLoader {
 

@@ -52,9 +52,9 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.scilab.forge.jlatexmath.ParseException;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.exception.ParseException;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;

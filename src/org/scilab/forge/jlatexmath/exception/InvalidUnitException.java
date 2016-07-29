@@ -44,7 +44,7 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
 /**
  * Signals that an unknown unit constant was used.
@@ -53,7 +53,7 @@ package org.scilab.forge.jlatexmath;
  */
 public class InvalidUnitException extends JMathTeXException {
 
-    protected InvalidUnitException() {
+    public InvalidUnitException() {
 	super("The delimiter type was not valid! "
 	      + "Use one of the unit constants from the class 'TeXConstants'.");
     }

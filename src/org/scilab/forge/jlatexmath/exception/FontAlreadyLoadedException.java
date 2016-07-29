@@ -1,4 +1,4 @@
-/* InvalidAtomTypeException.java
+/* FontAlreadyLoadedException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,16 +44,11 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
-/**
- * Signals that an unknown atom type constant was used.
- * 
- * @author Kurt Vermeulen
- */
-public class InvalidAtomTypeException extends JMathTeXException {
+public class FontAlreadyLoadedException extends XMLResourceParseException {
 
-    protected InvalidAtomTypeException(String msg) {
-	super(msg);
+    public FontAlreadyLoadedException(String msg) {
+        super(msg);
     }
 }

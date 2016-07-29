@@ -48,6 +48,8 @@ package org.scilab.forge.jlatexmath;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
+import org.scilab.forge.jlatexmath.exception.ParseException;
+
 public class NewCommandMacro {
 
     protected static HashMap<String, String> macrocode = new HashMap<String, String>();

@@ -1,4 +1,4 @@
-/* InvalidTeXFormulaException.java
+/* InvalidAtomTypeException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,16 +44,16 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
 /**
- * Signals that an invalid TeXFormula was used.
+ * Signals that an unknown atom type constant was used.
  * 
  * @author Kurt Vermeulen
  */
-public class InvalidTeXFormulaException extends JMathTeXException {
+public class InvalidAtomTypeException extends JMathTeXException {
 
-    protected InvalidTeXFormulaException(String msg) {
+    protected InvalidAtomTypeException(String msg) {
 	super(msg);
     }
 }

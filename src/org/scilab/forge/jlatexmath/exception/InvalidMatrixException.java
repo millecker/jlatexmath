@@ -1,4 +1,4 @@
-/* EmptyFormulaException.java
+/* InvalidMatrixException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,11 +44,16 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
-public class EmptyFormulaException extends Exception {
+/**
+ * Signals a problem of dimensions in the matrix.
+ *
+ * @author Calixte Denizet
+ */
+public class InvalidMatrixException extends JMathTeXException {
 
-    public EmptyFormulaException() {
-	super("Illegal operation with an empty Formula!");
-    }
+   protected InvalidMatrixException(String msg) {
+      super(msg);
+   }
 }

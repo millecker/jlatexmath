@@ -46,6 +46,9 @@
 
 package org.scilab.forge.jlatexmath;
 
+import org.scilab.forge.jlatexmath.exception.SymbolMappingNotFoundException;
+import org.scilab.forge.jlatexmath.exception.TextStyleMappingNotFoundException;
+
 /**
  * An interface representing a "TeXFont", which is responsible for all the necessary
  * fonts and font information. 

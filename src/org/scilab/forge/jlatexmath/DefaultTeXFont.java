@@ -49,6 +49,12 @@ package org.scilab.forge.jlatexmath;
 import java.util.Map;
 
 import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.exception.AlphabetRegistrationException;
+import org.scilab.forge.jlatexmath.exception.FontAlreadyLoadedException;
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
+import org.scilab.forge.jlatexmath.exception.SymbolMappingNotFoundException;
+import org.scilab.forge.jlatexmath.exception.TextStyleMappingNotFoundException;
+import org.scilab.forge.jlatexmath.exception.XMLResourceParseException;
 import org.scilab.forge.jlatexmath.platform.Resource;
 import org.scilab.forge.jlatexmath.platform.font.Font;
 

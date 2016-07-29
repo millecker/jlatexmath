@@ -55,6 +55,11 @@ import java.util.LinkedList;
 
 import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 import org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration;
+import org.scilab.forge.jlatexmath.exception.FormulaNotFoundException;
+import org.scilab.forge.jlatexmath.exception.InvalidAtomTypeException;
+import org.scilab.forge.jlatexmath.exception.InvalidUnitException;
+import org.scilab.forge.jlatexmath.exception.ParseException;
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 import org.scilab.forge.jlatexmath.greek.GreekRegistration;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.Resource;

@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.scilab.forge.jlatexmath.ResourceParseException;
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 import org.scilab.forge.jlatexmath.platform.parser.Document;
 import org.scilab.forge.jlatexmath.platform.parser.Parser;
 

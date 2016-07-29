@@ -1,6 +1,6 @@
 package org.scilab.forge.jlatexmath.platform;
 
-import org.scilab.forge.jlatexmath.ResourceParseException;
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 import org.scilab.forge.jlatexmath.platform.resources.ResourceLoader;
 
 public class Resource {

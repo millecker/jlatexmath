@@ -49,6 +49,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import org.scilab.forge.jlatexmath.exception.ParseException;
+
 /**
  * Class to load the predefined commands. Mainly wrote to avoid the use of the Java reflection.
  */

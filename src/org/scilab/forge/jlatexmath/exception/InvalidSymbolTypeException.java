@@ -44,7 +44,7 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
 /**
  * Signals that an unknown symbol type constant or a symbol of the wrong type was used.
@@ -53,7 +53,7 @@ package org.scilab.forge.jlatexmath;
  */
 public class InvalidSymbolTypeException extends JMathTeXException {
 
-    protected InvalidSymbolTypeException(String msg) {
+    public InvalidSymbolTypeException(String msg) {
 	super(msg);
     }
 }

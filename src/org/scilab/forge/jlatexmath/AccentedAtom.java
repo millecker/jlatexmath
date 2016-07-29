@@ -46,6 +46,10 @@
 
 package org.scilab.forge.jlatexmath;
 
+import org.scilab.forge.jlatexmath.exception.InvalidSymbolTypeException;
+import org.scilab.forge.jlatexmath.exception.InvalidTeXFormulaException;
+import org.scilab.forge.jlatexmath.exception.SymbolNotFoundException;
+
 /**
  * An atom representing another atom with an accent symbol above it.
  */

@@ -48,6 +48,8 @@ package org.scilab.forge.jlatexmath;
 
 import java.util.Map;
 
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
+import org.scilab.forge.jlatexmath.exception.XMLResourceParseException;
 import org.scilab.forge.jlatexmath.platform.ParserAdapter;
 import org.scilab.forge.jlatexmath.platform.Resource;
 import org.scilab.forge.jlatexmath.platform.parser.Element;

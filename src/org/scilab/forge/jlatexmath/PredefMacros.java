@@ -49,6 +49,7 @@ import java.util.Map;
 
 import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
+import org.scilab.forge.jlatexmath.exception.ParseException;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.font.Font;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;

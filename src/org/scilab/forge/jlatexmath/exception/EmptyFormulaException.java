@@ -1,4 +1,4 @@
-/* FormulaNotFoundException.java
+/* EmptyFormulaException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,18 +44,11 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
-/**
- * Signals that unknown predefined TeXFormula name was used.
- * 
- * @author Kurt Vermeulen
- */
-public class FormulaNotFoundException extends JMathTeXException {
+public class EmptyFormulaException extends Exception {
 
-    protected FormulaNotFoundException(String name) {
-	super("There's no predefined TeXFormula with the name '" + name
-	      + "' defined in '" + PredefinedTeXFormulaParser.RESOURCE_NAME
-	      + "'!");
+    public EmptyFormulaException() {
+	super("Illegal operation with an empty Formula!");
     }
 }

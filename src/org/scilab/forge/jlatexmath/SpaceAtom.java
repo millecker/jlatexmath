@@ -51,6 +51,8 @@ package org.scilab.forge.jlatexmath;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.scilab.forge.jlatexmath.exception.InvalidUnitException;
+
 /**
  * An atom representing whitespace. The dimension values can be set using different
  * unit types.

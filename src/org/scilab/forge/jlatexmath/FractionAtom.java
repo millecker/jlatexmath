@@ -46,6 +46,8 @@
 
 package org.scilab.forge.jlatexmath;
 
+import org.scilab.forge.jlatexmath.exception.InvalidUnitException;
+
 /**
  * An atom representing a fraction.
  */

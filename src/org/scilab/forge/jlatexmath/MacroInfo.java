@@ -49,6 +49,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import org.scilab.forge.jlatexmath.exception.ParseException;
+
 public class MacroInfo {
     
     public static HashMap<String, MacroInfo> Commands = new HashMap<String, MacroInfo>(300);

@@ -53,6 +53,9 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.scilab.forge.jlatexmath.exception.FontAlreadyLoadedException;
+import org.scilab.forge.jlatexmath.exception.ResourceParseException;
+import org.scilab.forge.jlatexmath.exception.XMLResourceParseException;
 import org.scilab.forge.jlatexmath.platform.FontAdapter;
 import org.scilab.forge.jlatexmath.platform.ParserAdapter;
 import org.scilab.forge.jlatexmath.platform.Resource;

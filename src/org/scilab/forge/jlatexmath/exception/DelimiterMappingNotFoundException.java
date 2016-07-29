@@ -1,4 +1,4 @@
-/* TextStyleMappingNotFoundException.java
+/* DelimiterMappingNotFoundException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,18 +44,20 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
+
+import org.scilab.forge.jlatexmath.TeXFormulaSettingsParser;
 
 /**
- * Signals a missing text style mapping.
+ * Signals a missing character-to-delimiter mapping.
  * 
  * @author Kurt Vermeulen
  */
-public class TextStyleMappingNotFoundException extends JMathTeXException {
-    
-    protected TextStyleMappingNotFoundException(String styleName) {
-	super("No mapping found for the text style '" + styleName + "'! "
-	      + "Insert a <" + DefaultTeXFontParser.STYLE_MAPPING_EL
-	      + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.");
+public class DelimiterMappingNotFoundException extends JMathTeXException {
+
+    protected DelimiterMappingNotFoundException(char delimiter) {
+	super("No mapping found for the character '" + delimiter + "'! "
+	      + "Insert a <" + TeXFormulaSettingsParser.CHARTODEL_MAPPING_EL
+	      + ">-element in '" + TeXFormulaSettingsParser.RESOURCE_NAME + "'.");
     }
 }

@@ -49,6 +49,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
+import org.scilab.forge.jlatexmath.exception.AlphabetRegistrationException;
 
 import java.lang.ClassLoader;
 

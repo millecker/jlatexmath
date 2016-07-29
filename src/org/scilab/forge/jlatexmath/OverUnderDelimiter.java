@@ -46,6 +46,8 @@
 
 package org.scilab.forge.jlatexmath;
 
+import org.scilab.forge.jlatexmath.exception.InvalidUnitException;
+
 /**
  * A box representing another atom with a delimiter and a script above or under it, 
  * with script and delimiter seperated by a kern.

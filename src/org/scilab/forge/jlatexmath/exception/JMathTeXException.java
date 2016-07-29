@@ -1,4 +1,4 @@
-/* InvalidDelimiterException.java
+/* JMathTeXException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,27 +44,20 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
 
 /**
- * Signals that a symbol, that was not defined as a delimiter, was used
- * as a delimiter.
+ * Superclass of all the possible (public) exceptions that can be thrown in this package. 
  * 
  * @author Kurt Vermeulen
  */
-public class InvalidDelimiterException extends JMathTeXException {
+public class JMathTeXException extends RuntimeException {
 
-   protected InvalidDelimiterException(String symbolName) {
-      super("The symbol with the name '" + symbolName
-            + "' is not defined as a delimiter ("
-            + TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
-            + TeXSymbolParser.RESOURCE_NAME + "'!");
-   }
-
-   protected InvalidDelimiterException(char ch, String symbolName) {
-      super("The character '" + ch + "' is mapped to a symbol with the name '"
-            + symbolName + "', but that symbol is not defined as a delimiter ("
-            + TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
-            + TeXSymbolParser.RESOURCE_NAME + "'!");
-   }
+    protected JMathTeXException(String msg) {
+	super(msg);
+    }
+    
+    protected JMathTeXException(String msg, Throwable cause) {
+	super(msg, cause);
+    }
 }

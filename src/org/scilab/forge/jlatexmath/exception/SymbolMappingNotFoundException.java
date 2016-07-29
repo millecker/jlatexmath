@@ -1,4 +1,4 @@
-/* JMathTeXException.java
+/* SymbolMappingNotFoundException.java
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  * 
@@ -44,20 +44,20 @@
  * 
  */
 
-package org.scilab.forge.jlatexmath;
+package org.scilab.forge.jlatexmath.exception;
+
+import org.scilab.forge.jlatexmath.DefaultTeXFontParser;
 
 /**
- * Superclass of all the possible (public) exceptions that can be thrown in this package. 
+ * Signals a missing symbol mapping.
  * 
  * @author Kurt Vermeulen
  */
-public class JMathTeXException extends RuntimeException {
+public class SymbolMappingNotFoundException extends JMathTeXException {
 
-    protected JMathTeXException(String msg) {
-	super(msg);
-    }
-    
-    protected JMathTeXException(String msg, Throwable cause) {
-	super(msg, cause);
+    public SymbolMappingNotFoundException(String symbolName) {
+	super("No mapping found for the symbol '" + symbolName + "'! "
+	      + "Insert a <" + DefaultTeXFontParser.SYMBOL_MAPPING_EL
+	      + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.");
     }
 }

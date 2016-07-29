@@ -50,6 +50,9 @@ package org.scilab.forge.jlatexmath;
 
 import java.util.Map;
 
+import org.scilab.forge.jlatexmath.exception.InvalidSymbolTypeException;
+import org.scilab.forge.jlatexmath.exception.SymbolMappingNotFoundException;
+import org.scilab.forge.jlatexmath.exception.SymbolNotFoundException;
 import org.scilab.forge.jlatexmath.platform.Resource;
 
 /**
