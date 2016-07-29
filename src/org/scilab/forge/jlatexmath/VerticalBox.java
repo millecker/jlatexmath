@@ -46,8 +46,9 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
 import java.util.ListIterator;
+
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 
 /**
  * A box composed of other boxes, put one above the other.
@@ -110,7 +111,7 @@ class VerticalBox extends Box {
         recalculateWidth(b);
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
         float yPos = y - height;
         for (Box b : children) {
             yPos += b.getHeight();

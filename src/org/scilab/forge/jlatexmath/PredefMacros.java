@@ -45,20 +45,23 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.util.Map;
-import java.util.StringTokenizer;
 
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
+import org.scilab.forge.jlatexmath.platform.Graphics;
+import org.scilab.forge.jlatexmath.platform.font.Font;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
 
 /**
  * This class contains the most of basic commands of LaTeX, they're activated in
  * byt the class PredefinedCommands.java.
  **/
 public class PredefMacros {
-
+    private static final Graphics graphics;
+  
     static {
+        graphics = new Graphics();
         NewEnvironmentMacro.addNewEnvironment("array", "\\array@@env{#1}{", "}", 1);
         NewEnvironmentMacro.addNewEnvironment("tabular", "\\array@@env{#1}{", "}", 1);
         NewEnvironmentMacro.addNewEnvironment("matrix", "\\matrix@@env{", "}", 0);
@@ -447,11 +450,11 @@ public class PredefMacros {
 
         TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
         if (fontInfos != null) {
-            TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, null);
+            TeXFormula.externalFontMap.put(UnicodeBlock.BASIC_LATIN, null);
         }
         Atom at = new TeXFormula(tp, args[1], false).root;
         if (fontInfos != null) {
-            TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, fontInfos);
+            TeXFormula.externalFontMap.put(UnicodeBlock.BASIC_LATIN, fontInfos);
         }
 
         return new TextStyleAtom(at, style);
@@ -1093,7 +1096,7 @@ public class PredefMacros {
         TeXFormula tf = new TeXFormula("\\mathbb{G}\\mathsf{e}");
         tf.add(new GeoGebraLogoAtom());
         tf.add("\\mathsf{Gebra}");
-        return new ColorAtom(tf.root, null, new Color(102, 102, 102));
+        return new ColorAtom(tf.root, null, graphics.createColor(102, 102, 102));
     }
 
     public static final Atom hphantom_macro(final TeXParser tp, final String[] args) throws ParseException {
@@ -1289,24 +1292,24 @@ public class PredefMacros {
         Color color = null;
         if ("gray".equals(args[2])) {
             float f = Float.parseFloat(args[3]);
-            color = new Color(f, f, f);
+            color = graphics.createColor(f, f, f);
         } else if ("rgb".equals(args[2])) {
-            StringTokenizer stok = new StringTokenizer(args[3], ";,");
-            if (stok.countTokens() != 3)
+            String[] tokens = args[3].split(",|;");
+            if (tokens.length != 3)
                 throw new ParseException("The color definition must have three components !");
-            float r = Float.parseFloat(stok.nextToken().trim());
-            float g = Float.parseFloat(stok.nextToken().trim());
-            float b = Float.parseFloat(stok.nextToken().trim());
-            color = new Color(r, g, b);
+            float r = Float.parseFloat(tokens[0].trim());
+            float g = Float.parseFloat(tokens[1].trim());
+            float b = Float.parseFloat(tokens[2].trim());
+            color = graphics.createColor(r, g, b);
         } else if ("cmyk".equals(args[2])) {
-            StringTokenizer stok = new StringTokenizer(args[3], ",;");
-            if (stok.countTokens() != 4)
+          String[] tokens = args[3].split(",|;");
+            if (tokens.length != 4)
                 throw new ParseException("The color definition must have four components !");
             float[] cmyk = new float[4];
             for (int i = 0; i < 4; i++)
-                cmyk[i] = Float.parseFloat(stok.nextToken().trim());
+                cmyk[i] = Float.parseFloat(tokens[0].trim());
             float k = 1 - cmyk[3];
-            color = new Color(k * (1 - cmyk[0]), k * (1 - cmyk[1]), k * (1 - cmyk[2]));
+            color = graphics.createColor(k * (1 - cmyk[0]), k * (1 - cmyk[1]), k * (1 - cmyk[2]));
         } else
             throw new ParseException("The color model is incorrect !");
 

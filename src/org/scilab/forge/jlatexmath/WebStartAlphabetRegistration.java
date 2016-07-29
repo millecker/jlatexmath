@@ -45,25 +45,24 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.lang.Character.UnicodeBlock;
-
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 import org.scilab.forge.jlatexmath.cyrillic.CyrillicRegistration;
 import org.scilab.forge.jlatexmath.greek.GreekRegistration;
 
 public class WebStartAlphabetRegistration implements AlphabetRegistration {
     
-    private Character.UnicodeBlock[] blocks;
+    private UnicodeBlock[] blocks;
     private AlphabetRegistration reg;
 
-    private WebStartAlphabetRegistration(Character.UnicodeBlock[] blocks) {
+    private WebStartAlphabetRegistration(UnicodeBlock[] blocks) {
 	this.blocks = blocks;
     }
     
-    public static void register(Character.UnicodeBlock[] blocks) {
+    public static void register(UnicodeBlock[] blocks) {
 	DefaultTeXFont.registerAlphabet(new WebStartAlphabetRegistration(blocks));
     } 
 
-    public Character.UnicodeBlock[] getUnicodeBlock() {
+    public UnicodeBlock[] getUnicodeBlock() {
 	return blocks;
     }
     

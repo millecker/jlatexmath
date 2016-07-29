@@ -45,6 +45,8 @@
 
 package org.scilab.forge.jlatexmath;
 
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
+
 /**
  * An atom representing whitespace. The dimension values can be set using different
  * unit types.
@@ -59,13 +61,13 @@ public class LaTeXAtom extends Atom {
 	env.getTeXFont().setRoman(true);
 	float sc = env.getTeXFont().getScaleFactor();
 
-        TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
+        TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(UnicodeBlock.BASIC_LATIN);
         if (fontInfos != null) {
-            TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, null);
+            TeXFormula.externalFontMap.put(UnicodeBlock.BASIC_LATIN, null);
         }
 	RowAtom rat = (RowAtom)((RomanAtom)new TeXFormula("\\mathrm{XETL}").root).base;
         if (fontInfos != null) {
-            TeXFormula.externalFontMap.put(Character.UnicodeBlock.BASIC_LATIN, fontInfos);
+            TeXFormula.externalFontMap.put(UnicodeBlock.BASIC_LATIN, fontInfos);
         }
 
 	HorizontalBox hb = new HorizontalBox(rat.getLastAtom().createBox(env));

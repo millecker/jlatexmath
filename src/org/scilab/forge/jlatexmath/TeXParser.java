@@ -45,11 +45,10 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.lang.Character.UnicodeBlock;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.scilab.forge.jlatexmath.character.Character.UnicodeBlock;
 
 /**
  * This class implements a parser for LaTeX' formulas.
@@ -1117,7 +1116,7 @@ public class TeXParser {
 
         c = convertToRomanNumber(c);
         if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
-            Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+            UnicodeBlock block = UnicodeBlock.of(c);
             if (!isLoading && !DefaultTeXFont.loadedAlphabets.contains(block)) {
                 DefaultTeXFont.addAlphabet(DefaultTeXFont.registeredAlphabets.get(block));
             }
@@ -1126,7 +1125,7 @@ public class TeXParser {
             if (symbolName == null && (TeXFormula.symbolFormulaMappings == null || TeXFormula.symbolFormulaMappings[c] == null)) {
 		TeXFormula.FontInfos fontInfos = null;
 		boolean isLatin = Character.UnicodeBlock.BASIC_LATIN.equals(block);
-		if ((isLatin && TeXFormula.isRegisteredBlock(Character.UnicodeBlock.BASIC_LATIN)) || !isLatin) {
+		if ((isLatin && TeXFormula.isRegisteredBlock(UnicodeBlock.BASIC_LATIN)) || !isLatin) {
 		    fontInfos = TeXFormula.getExternalFont(block);
 		}
                 if (fontInfos != null) {
@@ -1150,7 +1149,7 @@ public class TeXParser {
                     throw new ParseException("Unknown character : '"
                                              + Character.toString(c) + "' (or " + ((int) c) + ")");
                 } else {
-                    return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int) c) + ")}").root), null, Color.RED);
+                    return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int) c) + ")}").root), null, ColorUtil.RED);
                 }
             } else {
                 if (!ignoreWhiteSpace) {// we are in text mode
@@ -1244,7 +1243,7 @@ public class TeXParser {
         if (!isPartial) {
             throw new ParseException("Unknown symbol or command or predefined TeXFormula: '" + command + "'");
         } else {
-            return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, Color.RED);
+            return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, ColorUtil.RED);
         }
     }
 

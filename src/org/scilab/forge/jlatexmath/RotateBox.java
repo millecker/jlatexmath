@@ -45,8 +45,9 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
+import org.scilab.forge.jlatexmath.platform.Geom;
+import org.scilab.forge.jlatexmath.platform.geom.Point2D;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 
 /**
  * A box representing a rotated box.
@@ -69,7 +70,7 @@ public class RotateBox extends Box {
     protected double angle = 0;
     private Box box;
     private float xmax, xmin, ymax, ymin;
-    private int option;
+    // private int option;
 
     private float shiftX;
     private float shiftY;
@@ -93,8 +94,8 @@ public class RotateBox extends Box {
         depth = -ymin - shiftY;
     }
 
-    public RotateBox(Box b, double angle, Point2D.Float origin) {
-        this(b, angle, origin.x, origin.y);
+    public RotateBox(Box b, double angle, Point2D origin) {
+        this(b, angle, (float)origin.getX(), (float)origin.getY());
     }
 
     public RotateBox(Box b, double angle, int option) {
@@ -138,56 +139,56 @@ public class RotateBox extends Box {
         return BBL;
     }
 
-    private static Point2D.Float calculateShift(Box b, int option) {
-        Point2D.Float p = new Point2D.Float(0, -b.depth);
+    private static Point2D calculateShift(Box b, int option) {
+        Point2D p = new Geom().createPoint2D(0, -b.depth);
         switch (option) {
         case BL :
-            p.x = 0;
-            p.y = -b.depth;
+            p.setX(0);
+            p.setY(-b.depth);
             break;
         case BR :
-            p.x = b.width;
-            p.y = -b.depth;
+            p.setX(b.width);
+            p.setY(-b.depth);
             break;
         case BC :
-            p.x = b.width / 2;
-            p.y = - b.depth;
+            p.setX(b.width / 2);
+            p.setY(-b.depth);
             break;
         case TL :
-            p.x = 0;
-            p.y = b.height;
+            p.setX(0);
+            p.setY(b.height);
             break;
         case TR :
-            p.x = b.width;
-            p.y = b.height;
+            p.setX(b.width);
+            p.setY(b.height);
             break;
         case TC :
-            p.x = b.width / 2;
-            p.y = b.height;
+            p.setX(b.width / 2);
+            p.setY(b.height);
             break;
         case BBL :
-            p.x = 0;
-            p.y = 0;
+            p.setX(0);
+            p.setY(0);
             break;
         case BBR :
-            p.x = b.width;
-            p.y = 0;
+            p.setX(b.width);
+            p.setY(0);
             break;
         case BBC :
-            p.x = b.width / 2;
-            p.y = 0;
+            p.setX(b.width / 2);
+            p.setY(0);
             break;
         case CL :
-            p.x = 0;
-            p.y = (b.height - b.depth) / 2;
+            p.setX(0);
+            p.setY((b.height - b.depth) / 2);
             break;
         case CR :
-            p.x = b.width;
-            p.y = (b.height - b.depth) / 2;
+            p.setX(b.width);
+            p.setY((b.height - b.depth) / 2);
             break;
         case CC :
-            p.x = b.width / 2;
-            p.y = (b.height - b.depth) / 2;
+            p.setX(b.width / 2);
+            p.setY((b.height - b.depth) / 2);
             break;
         default :
         }
@@ -195,7 +196,7 @@ public class RotateBox extends Box {
         return p;
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
         drawDebug(g2, x, y);
         box.drawDebug(g2, x, y, true);
         y -= shiftY;
