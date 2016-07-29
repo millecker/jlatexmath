@@ -45,33 +45,36 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.BasicStroke;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
+import org.scilab.forge.jlatexmath.platform.graphics.BasicStroke;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Stroke;
 
 /**
  * A box representing a box containing a graphics.
  */
 public class GeoGebraLogoBox extends Box {
 
-    private static final Color gray = new Color(102, 102, 102);
-    private static final Color blue = new Color(153, 153, 255);
+    private static Color gray;
+    private static Color blue;
 
-    private static final BasicStroke st = new BasicStroke(3.79999995f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
-    private static final BasicStroke stC = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
-
+    private final BasicStroke st;
+    // private final BasicStroke stC;
+    
     public GeoGebraLogoBox(float w, float h) {
 	this.depth = 0;
 	this.height = h;
 	this.width = w;
 	this.shift = 0;
+	gray = graphics.createColor(102, 102, 102);
+	blue = graphics.createColor(153, 153, 255);
+	st = graphics.createBasicStroke(3.79999995f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
+	// stC = graphics.createBasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
     }
    
-    public void draw(Graphics2D g2, float x, float y) {
-	AffineTransform oldAt = g2.getTransform();
+    public void draw(Graphics2DInterface g2, float x, float y) {
+	//Transform oldAt = g2.getTransform();
+	g2.saveTransformation();
 	Color oldC = g2.getColor();
 	Stroke oldS = g2.getStroke();
 	g2.translate(x + 0.25f * height / 2.15f, y - 1.75f / 2.15f * height);
@@ -88,15 +91,16 @@ public class GeoGebraLogoBox extends Box {
 	drawCircle(g2, 27f, 24f);
 	drawCircle(g2, 36f, 3f);
 	g2.setStroke(oldS);
-	g2.setTransform(oldAt);
+	//g2.setTransform(oldAt);
+	g2.restoreTransformation();
 	g2.setColor(oldC);
     }
     
-    private static void drawCircle(Graphics2D g2, float x, float y) {
+    private static void drawCircle(Graphics2DInterface g2, float x, float y) {
 	g2.setColor(blue);
 	g2.translate(x, y);
 	g2.fillArc(0, 0, 8, 8, 0, 360);
-	g2.setColor(Color.BLACK);
+	g2.setColor(ColorUtil.BLACK);
 	g2.drawArc(0, 0, 8, 8, 0, 360);
 	g2.translate(-x, -y);
     }

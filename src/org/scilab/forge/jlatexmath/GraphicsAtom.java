@@ -45,17 +45,12 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.image.ImageObserver;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.MediaTracker;
-import java.awt.Label;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.io.File;
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.util.Map;
+
+import org.scilab.forge.jlatexmath.platform.Graphics;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.HasForegroundColor;
+import org.scilab.forge.jlatexmath.platform.graphics.Image;
 
 /**
  * An atom representing an atom containing a graphic.
@@ -63,8 +58,8 @@ import java.util.Map;
 public class GraphicsAtom extends Atom {
     
     private Image image = null;
-    private BufferedImage bimage;
-    private Label c;
+    private Image bimage;
+    private HasForegroundColor c;
     private int w, h;
 
     private Atom base;
@@ -72,6 +67,7 @@ public class GraphicsAtom extends Atom {
     private int interp = -1;
 
     public GraphicsAtom(String path, String option) {
+        /*
 	File f = new File(path);
 	if (!f.exists()) {
 	    try {
@@ -94,6 +90,8 @@ public class GraphicsAtom extends Atom {
 		image = null;
 	    }
 	}
+	*/
+        image = new Graphics().loadImage(path);
 	draw();
 	buildAtom(option);
     }
@@ -125,11 +123,11 @@ public class GraphicsAtom extends Atom {
 	
     public void draw() {
 	if (image != null) {
-	    w = image.getWidth(c);
-	    h = image.getHeight(c);
-	    bimage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g2d = bimage.createGraphics();
-	    g2d.drawImage(image, 0, 0, null);
+	    w = image.getWidth();
+	    h = image.getHeight();
+	    bimage = new Graphics().createImage(w, h, Image.TYPE_INT_ARGB);
+	    Graphics2DInterface g2d = bimage.createGraphics2D();
+	    g2d.drawImage(image, 0, 0);
 	    g2d.dispose();
 	}
     }

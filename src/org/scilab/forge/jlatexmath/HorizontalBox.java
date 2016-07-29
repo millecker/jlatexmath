@@ -46,19 +46,19 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 
 /**
  * A box composed of a horizontal row of child boxes.
  */
 public class HorizontalBox extends Box {
 
-    private float curPos = 0; // NOPMD
+    // private float curPos = 0; // NOPMD
     protected List<Integer> breakPositions;
 
     public HorizontalBox(Box b, float w, int alignment) {
@@ -106,7 +106,7 @@ public class HorizontalBox extends Box {
         return b;
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
         startDraw(g2, x, y);
         float xPos = x;
         for (Box box: children) {

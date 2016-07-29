@@ -45,11 +45,11 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.geom.Rectangle2D;
-import java.awt.Color;
+import org.scilab.forge.jlatexmath.platform.geom.Rectangle2D;
+import org.scilab.forge.jlatexmath.platform.graphics.BasicStroke;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Stroke;
 
 /**
  * A box representing a rotated box.
@@ -61,6 +61,7 @@ public class FramedBox extends Box {
     protected float space;
     private Color line;
     private Color bg;
+    private Rectangle2D rectangle;
 
     public FramedBox(Box box, float thickness, float space) {
 	this.box = box;
@@ -70,6 +71,7 @@ public class FramedBox extends Box {
 	this.shift = box.shift;
 	this.thickness = thickness;
 	this.space = space;
+	this.rectangle = geom.createRectangle2D(0, 0, 0, 0);
     }
 
     public FramedBox(Box box, float thickness, float space, Color line, Color bg) {
@@ -78,23 +80,26 @@ public class FramedBox extends Box {
 	this.bg = bg;
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
 	Stroke st = g2.getStroke();
-	g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+	g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 	float th = thickness / 2;
 	if (bg != null) {
 	    Color prev = g2.getColor();
 	    g2.setColor(bg);
-	    g2.fill(new Rectangle2D.Float(x + th, y - height + th, width - thickness, height + depth - thickness));
+	    rectangle.setRectangle(x + th, y - height + th, width - thickness, height + depth - thickness);
+	    g2.fill(rectangle);
 	    g2.setColor(prev);
 	}
 	if (line != null) {
 	    Color prev = g2.getColor();
 	    g2.setColor(line);
-	    g2.draw(new Rectangle2D.Float(x + th, y - height + th, width - thickness, height + depth - thickness));
+	    rectangle.setRectangle(x + th, y - height + th, width - thickness, height + depth - thickness);
+	    g2.draw(rectangle);
 	    g2.setColor(prev);
 	} else {
-	    g2.draw(new Rectangle2D.Float(x + th, y - height + th, width - thickness, height + depth - thickness));
+	    rectangle.setRectangle(x + th, y - height + th, width - thickness, height + depth - thickness);
+	    g2.draw(rectangle);
 	}
 	//drawDebug(g2, x, y);
 	g2.setStroke(st);

@@ -46,9 +46,9 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.Color;
+import org.scilab.forge.jlatexmath.platform.geom.Rectangle2D;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 
 /**
  * A box representing a horizontal line.
@@ -56,12 +56,14 @@ import java.awt.Color;
 public class HorizontalRule extends Box {
     
     private Color color = null;
-    private float speShift = 0;;
+    private float speShift = 0;
+    private Rectangle2D rectangle = null;
     
     public HorizontalRule(float thickness, float width, float s) {
 	height = thickness;
 	this.width = width;
 	shift = s;
+	rectangle = geom.createRectangle2D(0, 0, 0, 0);
     }
 
     public HorizontalRule(float thickness, float width, float s, boolean trueShift) {
@@ -72,7 +74,8 @@ public class HorizontalRule extends Box {
 	} else {
 	    shift = 0;
 	    speShift = s;
-	}	
+	}
+	rectangle = geom.createRectangle2D(0, 0, 0, 0);
     }
 
     public HorizontalRule(float thickness, float width, float s, Color c) {
@@ -80,18 +83,20 @@ public class HorizontalRule extends Box {
 	this.width = width;
 	color = c;
 	shift = s;
+	rectangle = geom.createRectangle2D(0, 0, 0, 0);
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
 	Color old = g2.getColor();
 	if (color != null)
 	    g2.setColor(color);
 	
 	if (speShift == 0) {
-	    g2.fill(new Rectangle2D.Float(x, y - height, width, height));
+	    rectangle.setRectangle(x, y - height, width, height);
 	} else {
-	    g2.fill(new Rectangle2D.Float(x, y - height + speShift, width, height));
+	    rectangle.setRectangle(x, y - height + speShift, width, height);
 	}
+        g2.fill(rectangle);
 	g2.setColor(old);
     }
     

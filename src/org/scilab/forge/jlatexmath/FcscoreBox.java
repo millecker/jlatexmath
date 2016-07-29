@@ -45,11 +45,11 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
+import org.scilab.forge.jlatexmath.platform.geom.Line2D;
+import org.scilab.forge.jlatexmath.platform.graphics.BasicStroke;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Stroke;
+import org.scilab.forge.jlatexmath.platform.graphics.Transform;
 
 /**
  * A box representing glue.
@@ -60,6 +60,7 @@ public class FcscoreBox extends Box {
     private boolean strike;
     private float space;
     private float thickness;
+    private Line2D line;
  
     public FcscoreBox(int N, float h, float thickness, float space, boolean strike) {
 	this.N = N;
@@ -69,10 +70,12 @@ public class FcscoreBox extends Box {
 	this.strike = strike;
 	this.space = space;
 	this.thickness = thickness;
+	this.line = geom.createLine2D();
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
-	AffineTransform transf = g2.getTransform();
+    public void draw(Graphics2DInterface g2, float x, float y) {
+	Transform transf = g2.getTransform();
+	g2.saveTransformation();
 	Stroke oldStroke = g2.getStroke();
 
 	final double sx = transf.getScaleX();
@@ -83,14 +86,14 @@ public class FcscoreBox extends Box {
 	    // spacing... 
 	    // So the increment (space+thickness) is done in using integer.
 	    s = sx;
-	    AffineTransform t = (AffineTransform) transf.clone();
-	    t.scale(1 / sx, 1 / sy);
-	    g2.setTransform(t);
+	    // AffineTransform t = (AffineTransform) transf.clone();
+	    g2.scale(1 / sx, 1 / sy);
+	    //g2.setTransform(t);
 	}
 
-	g2.setStroke(new BasicStroke((float) (s * thickness), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+	g2.setStroke(graphics.createBasicStroke((float) (s * thickness), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 	float th = thickness / 2.f;
-	final Line2D.Float line = new Line2D.Float(); 
+	//final Line2D.Float line = new Line2D.Float(); 
 	float xx = x + space;
 	xx = (float) (xx * s + (space / 2.f) * s);
 	final int inc = (int) Math.round((space + thickness) * s);
@@ -107,7 +110,7 @@ public class FcscoreBox extends Box {
 	    g2.draw(line);
 	}
 	
-	g2.setTransform(transf);
+	g2.restoreTransformation();
 	g2.setStroke(oldStroke);
     }
 

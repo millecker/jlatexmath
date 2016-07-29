@@ -45,7 +45,8 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Font;
+import org.scilab.forge.jlatexmath.platform.FontAdapter;
+import org.scilab.forge.jlatexmath.platform.font.Font;
 
 /**
  * The string rendering is made in using Java Graphics2D.drawString.
@@ -75,17 +76,18 @@ public class JavaFontRenderingAtom extends Atom {
 	    type = type | (dtf.isBold ? Font.BOLD : 0);
 	    boolean kerning = dtf.isRoman;
 	    Font font;
+	    FontAdapter fontAdapter = new FontAdapter();
 	    if (dtf.isSs) {
 		if (fontInfos.sansserif == null) {
-		    font = new Font(fontInfos.serif, Font.PLAIN, 10);
+		    font = fontAdapter.createFont(fontInfos.serif, Font.PLAIN, 10);
 		} else {
-		    font = new Font(fontInfos.sansserif, Font.PLAIN, 10);
+		    font = fontAdapter.createFont(fontInfos.sansserif, Font.PLAIN, 10);
 		}
 	    } else {
 		if (fontInfos.serif == null) {
-		    font = new Font(fontInfos.sansserif, Font.PLAIN, 10);
+		    font = fontAdapter.createFont(fontInfos.sansserif, Font.PLAIN, 10);
 		} else {
-		    font = new Font(fontInfos.serif, Font.PLAIN, 10);
+		    font = fontAdapter.createFont(fontInfos.serif, Font.PLAIN, 10);
 		}
 	    }
 	    return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.getStyle()), font, kerning);

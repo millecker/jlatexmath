@@ -45,25 +45,27 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.font.TextAttribute;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
 import java.util.Hashtable;
 import java.util.Map;
+
+import org.scilab.forge.jlatexmath.platform.FontAdapter;
+import org.scilab.forge.jlatexmath.platform.Graphics;
+import org.scilab.forge.jlatexmath.platform.font.Font;
+import org.scilab.forge.jlatexmath.platform.font.TextAttribute;
+import org.scilab.forge.jlatexmath.platform.font.TextLayout;
+import org.scilab.forge.jlatexmath.platform.geom.Rectangle2D;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Image;
 
 /**
  * A box representing a scaled box.
  */
 public class JavaFontRenderingBox extends Box {
 
-    private static final Graphics2D TEMPGRAPHIC = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).createGraphics();
-
-    private static Font font = new Font("Serif", Font.PLAIN, 10);
-
+    private static final Graphics2DInterface TEMPGRAPHIC;
+    private static final FontAdapter fontAdapter;
+    private static Font font;
+    
     private String str;
     private TextLayout text;
     private float size;
@@ -73,11 +75,14 @@ public class JavaFontRenderingBox extends Box {
     private static Integer LIGATURES_ON;
 
     static {
+        TEMPGRAPHIC = new Graphics().createImage(1, 1, Image.TYPE_INT_ARGB).createGraphics2D();
+        fontAdapter = new FontAdapter();
+        font = fontAdapter.createFont("Serif", Font.PLAIN, 10);
         try { // to avoid problems with Java 1.5
-            KERNING = (TextAttribute) (TextAttribute.class.getField("KERNING").get(TextAttribute.class));
-            KERNING_ON = (Integer) (TextAttribute.class.getField("KERNING_ON").get(TextAttribute.class));
-            LIGATURES = (TextAttribute) (TextAttribute.class.getField("LIGATURES").get(TextAttribute.class));
-            LIGATURES_ON = (Integer) (TextAttribute.class.getField("LIGATURES_ON").get(TextAttribute.class));
+            KERNING = fontAdapter.getTextAttribute("KERNING");
+            KERNING_ON = fontAdapter.getTextAttributeValue("KERNING_ON");
+            LIGATURES = fontAdapter.getTextAttribute("LIGATURES");
+            LIGATURES_ON = fontAdapter.getTextAttributeValue("LIGATURES_ON");
         } catch (Exception e) { }
     }
 
@@ -92,7 +97,7 @@ public class JavaFontRenderingBox extends Box {
             f = f.deriveFont(map);
         }
 
-        this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
+        this.text = fontAdapter.createTextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
         Rectangle2D rect = text.getBounds();
         this.height = (float) (-rect.getY() * size / 10);
         this.depth = (float) (rect.getHeight() * size / 10) - this.height;
@@ -104,10 +109,10 @@ public class JavaFontRenderingBox extends Box {
     }
 
     public static void setFont(String name) {
-        font = new Font(name, Font.PLAIN, 10);
+        font = fontAdapter.createFont(name, Font.PLAIN, 10);
     }
 
-    public void draw(Graphics2D g2, float x, float y) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
         drawDebug(g2, x, y);
         g2.translate(x, y);
         g2.scale(0.1 * size, 0.1 * size);

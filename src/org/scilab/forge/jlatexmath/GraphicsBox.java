@@ -45,10 +45,9 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.RenderingHints;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Image;
+import org.scilab.forge.jlatexmath.platform.graphics.RenderingHints;
 
 /**
  * A box representing a box containing a graphics.
@@ -59,11 +58,11 @@ public class GraphicsBox extends Box {
     public final static int NEAREST_NEIGHBOR = 1;
     public final static int BICUBIC = 2;
 
-    private BufferedImage image;
+    private Image image;
     private float scl;
-    private Object interp;
+    private int interp;
 
-    public GraphicsBox(BufferedImage image, float width, float height, float size, int interpolation) {
+    public GraphicsBox(Image image, float width, float height, float size, int interpolation) {
 	this.image = image;
 	this.width = width;
 	this.height = height;
@@ -81,22 +80,24 @@ public class GraphicsBox extends Box {
 	    interp = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
 	    break;
 	default :
-	    interp = null;
+	    interp = -1;
 	}
     }
    
-    public void draw(Graphics2D g2, float x, float y) {
-	AffineTransform oldAt = g2.getTransform();
-	Object oldKey = null;
-	if (interp != null) {
+    public void draw(Graphics2DInterface g2, float x, float y) {
+	// AffineTransform oldAt = g2.getTransform();
+        g2.saveTransformation();
+	int oldKey = -1;
+	if (interp != -1) {
 	    oldKey = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interp);
 	}
 	g2.translate(x, y - height);
 	g2.scale(scl, scl);
-	g2.drawImage(image, 0, 0, null);
-	g2.setTransform(oldAt);
-	if (oldKey != null) {
+	g2.drawImage(image, 0, 0);
+	// g2.setTransform(oldAt);
+	g2.restoreTransformation();
+	if (oldKey != -1) {
 	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldKey);
 	}
     }
