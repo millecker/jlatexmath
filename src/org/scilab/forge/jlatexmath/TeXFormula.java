@@ -861,14 +861,13 @@ public class TeXFormula {
     }
 
     public void createImage(String format, int style, float size, String out, Color bg, Color fg, boolean transparency) {
-        throw new UnsupportedOperationException();
-        /*
         TeXIcon icon = createTeXIcon(style, size);
         icon.setInsets(new Insets(1, 1, 1, 1));
         int w = icon.getIconWidth(), h = icon.getIconHeight();
 
-        BufferedImage image = new BufferedImage(w, h, transparency ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = image.createGraphics();
+        Graphics graphics = new Graphics();
+        Image image = graphics.createImage(w, h, transparency ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
+        Graphics2DInterface g2 = image.createGraphics2D();
         if (bg != null && !transparency) {
             g2.setColor(bg);
             g2.fillRect(0, 0, w, h);
@@ -876,6 +875,9 @@ public class TeXFormula {
 
         icon.setForeground(fg);
         icon.paintIcon(null, g2, 0, 0);
+        
+        graphics.writeImage(image, format, out);
+        /*
         try {
             FileImageOutputStream imout = new FileImageOutputStream(new File(out));
             ImageIO.write(image, format, imout);
@@ -883,10 +885,9 @@ public class TeXFormula {
             imout.close();
         } catch (IOException ex) {
             System.err.println("I/O error : Cannot generate " + out);
-        }
+        }*/
 
         g2.dispose();
-        */
     }
 
     public void createPNG(int style, float size, String out, Color bg, Color fg) {

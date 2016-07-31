@@ -12,5 +12,7 @@ public abstract class GraphicsFactory {
   public abstract Image getImage(String path);
   
   public abstract Transform createTransform();
+  
+  public abstract boolean writeImage(Image im, String formatName, String outputPath);
 
 }

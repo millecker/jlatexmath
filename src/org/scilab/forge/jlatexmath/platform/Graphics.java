@@ -48,5 +48,9 @@ public class Graphics {
   public Image loadImage(String path) {
     return graphicsFactory.getImage(path);
   }
+  
+  public boolean writeImage(Image im, String formatName, String outputPath) {
+    return graphicsFactory.writeImage(im, formatName, outputPath);
+  }
 
 }
