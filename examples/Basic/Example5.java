@@ -43,21 +43,8 @@
  * 
  */
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-
-import org.scilab.forge.jlatexmath.TeXConstants; 
+import org.scilab.forge.jlatexmath.ColorUtil;
+import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 
 /**
@@ -78,6 +65,6 @@ public class Example5 {
 	latex += "\\end{array}";
 	
 	TeXFormula formula = new TeXFormula(latex);
-	formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, "Example5.png", Color.white, Color.black);
+	formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, "Example5.png", ColorUtil.WHITE, ColorUtil.BLACK);
     }    
 }

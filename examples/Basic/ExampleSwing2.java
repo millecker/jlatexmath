@@ -20,7 +20,7 @@ public class ExampleSwing2 {
 				.build();
 		
 		JFrame frame = new JFrame();
-		final JLabel label = new JLabel(icon);
+		final JLabel label = null; // TODO new JLabel(icon);
 		label.setMaximumSize(new Dimension(100,300));
 		label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		frame.getContentPane().add(label);

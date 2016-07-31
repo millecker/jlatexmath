@@ -43,24 +43,14 @@
  * 
  */
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-
-import org.scilab.forge.jlatexmath.TeXConstants; 
+import org.scilab.forge.jlatexmath.ColorUtil;
+import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
-import org.scilab.forge.jlatexmath.TeXFormula.TeXIconBuilder;
+import org.scilab.forge.jlatexmath.platform.Graphics;
+import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Image;
+import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 
 /**
  * A class to test LaTeX rendering.
@@ -85,16 +75,12 @@ public class Example4 {
 
 	icon.setInsets(new Insets(5, 5, 5, 5));
 	
-	BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-	Graphics2D g2 = image.createGraphics();
-	g2.setColor(Color.white);
+	Graphics graphics = new Graphics();
+	Image image = graphics.createImage(icon.getIconWidth(), icon.getIconHeight(), Image.TYPE_INT_ARGB);
+	Graphics2DInterface g2 = image.createGraphics2D();
+	g2.setColor(ColorUtil.WHITE);
 	g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
-	JLabel jl = new JLabel();
-	jl.setForeground(new Color(0, 0, 0));
-	icon.paintIcon(jl, g2, 0, 0);
-	File file = new File("Example4.png");
-	try {
-	    ImageIO.write(image, "png", file.getAbsoluteFile());
-	} catch (IOException ex) {}
+	icon.paintIcon(null, g2, 0, 0);
+        graphics.writeImage(image, "png", "Example4.png");
     }    
 }
