@@ -7,13 +7,13 @@ import org.scilab.forge.jlatexmath.platform.parser.ParserFactory;
 import org.scilab.forge.jlatexmath.platform.resources.ResourceLoaderFactory;
 
 public abstract class FactoryProvider {
-  public GeomFactory geomFactory = null;
-  public FontFactory fontFactory = null;
-  public GraphicsFactory graphicsFactory = null;
-  public ParserFactory parserFactory = null;
-  public ResourceLoaderFactory resourceLoaderFactory = null;
-
+  
   public static FactoryProvider INSTANCE = null;
+  private GeomFactory geomFactory = null;
+  private FontFactory fontFactory = null;
+  private GraphicsFactory graphicsFactory = null;
+  private ParserFactory parserFactory = null;
+  private ResourceLoaderFactory resourceLoaderFactory = null;
 
   protected abstract GeomFactory createGeomFactory();
 

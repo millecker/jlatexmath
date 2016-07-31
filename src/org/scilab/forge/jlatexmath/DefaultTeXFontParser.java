@@ -171,8 +171,8 @@ public class DefaultTeXFontParser {
     
     private Element root;
     private Object base = null;
-    private Resource resource = null;
-    private ParserAdapter parserAdapter = null;
+    private final Resource resource;
+    private final ParserAdapter parserAdapter;
     
     static {
         // string-to-constant mappings
@@ -185,7 +185,7 @@ public class DefaultTeXFontParser {
         // this(DefaultTeXFontParser.class.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME);
         resource = new Resource();
         parserAdapter = new ParserAdapter();
-        Object file = resource.loadResource(RESOURCE_NAME);
+        Object file = resource.loadResource(DefaultTeXFontParser.class, RESOURCE_NAME);
         try {
           root = parserAdapter.createParserAndParseFile(file, true, true);
         } catch (Exception e) {

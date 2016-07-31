@@ -449,7 +449,7 @@ public class PredefMacros {
         else if ("cal".equals(args[0]))
             style = "mathcal";
 
-        TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
+        TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(UnicodeBlock.BASIC_LATIN);
         if (fontInfos != null) {
             TeXFormula.externalFontMap.put(UnicodeBlock.BASIC_LATIN, null);
         }
@@ -1308,7 +1308,7 @@ public class PredefMacros {
                 throw new ParseException("The color definition must have four components !");
             float[] cmyk = new float[4];
             for (int i = 0; i < 4; i++)
-                cmyk[i] = Float.parseFloat(tokens[0].trim());
+                cmyk[i] = Float.parseFloat(tokens[i].trim());
             float k = 1 - cmyk[3];
             color = graphics.createColor(k * (1 - cmyk[0]), k * (1 - cmyk[1]), k * (1 - cmyk[2]));
         } else

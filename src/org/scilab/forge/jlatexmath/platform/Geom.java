@@ -7,7 +7,7 @@ import org.scilab.forge.jlatexmath.platform.geom.Rectangle2D;
 import org.scilab.forge.jlatexmath.platform.geom.RoundRectangle2D;
 
 public class Geom {
-  public GeomFactory geomFactory = null;
+  private final GeomFactory geomFactory;
 
   public Geom() {
     geomFactory = FactoryProvider.INSTANCE.getGeomFactory();

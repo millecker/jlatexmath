@@ -45,7 +45,7 @@
 
 package org.scilab.forge.jlatexmath;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.scilab.forge.jlatexmath.platform.FontAdapter;
@@ -75,7 +75,7 @@ public class JavaFontRenderingBox extends Box {
     private static Integer LIGATURES_ON;
 
     static {
-        TEMPGRAPHIC = new Graphics().createImage(1, 1, Image.TYPE_INT_ARGB).createGraphics2D();
+        TEMPGRAPHIC = new Graphics().createImage(1, 1).createGraphics2D();
         fontAdapter = new FontAdapter();
         font = fontAdapter.createFont("Serif", Font.PLAIN, 10);
         try { // to avoid problems with Java 1.5
@@ -91,7 +91,7 @@ public class JavaFontRenderingBox extends Box {
         this.size = size;
 
         if (kerning && KERNING != null) {
-            Map<TextAttribute, Object> map = new Hashtable<TextAttribute, Object>();
+            Map<TextAttribute, Object> map = new HashMap<TextAttribute, Object>();
             map.put(KERNING, KERNING_ON);
             map.put(LIGATURES, LIGATURES_ON);
             f = f.deriveFont(map);

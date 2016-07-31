@@ -51,7 +51,7 @@ package org.scilab.forge.jlatexmath.exception;
  */
 public class ResourceParseException extends JMathTeXException {
     
-    protected ResourceParseException(String msg) {
+    public ResourceParseException(String msg) {
         super(msg);
     }
     

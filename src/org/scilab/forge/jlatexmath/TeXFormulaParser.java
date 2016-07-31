@@ -51,7 +51,6 @@ import java.util.Map;
 
 import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 import org.scilab.forge.jlatexmath.exception.XMLResourceParseException;
-import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.parser.Element;
 import org.scilab.forge.jlatexmath.platform.parser.Node;
 import org.scilab.forge.jlatexmath.platform.parser.NodeList;

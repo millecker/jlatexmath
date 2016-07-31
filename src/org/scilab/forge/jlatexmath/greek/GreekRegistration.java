@@ -41,7 +41,7 @@ public class GreekRegistration implements AlphabetRegistration {
     }
 
     public Object getPackage() {
-	return this;
+	return GreekRegistration.class;
     }
 
     public String getTeXFontFileName() {

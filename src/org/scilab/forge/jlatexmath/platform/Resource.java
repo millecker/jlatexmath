@@ -4,10 +4,10 @@ import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 import org.scilab.forge.jlatexmath.platform.resources.ResourceLoader;
 
 public class Resource {
-  public ResourceLoader resourceLoader = null;
+  private final ResourceLoader resourceLoader;
 
   public Resource() {
-    resourceLoader = FactoryProvider.INSTANCE.getResourceLoaderFactory()
+    resourceLoader = FactoryProvider.INSTANCE.createResourceLoaderFactory()
         .createResourceLoader();
   }
 

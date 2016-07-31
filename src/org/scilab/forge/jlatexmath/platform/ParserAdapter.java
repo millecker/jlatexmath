@@ -7,7 +7,7 @@ import org.scilab.forge.jlatexmath.platform.parser.Parser;
 import org.scilab.forge.jlatexmath.platform.parser.ParserFactory;
 
 public class ParserAdapter {
-  public ParserFactory parserFactory = null;
+  private final ParserFactory parserFactory;
 
   public ParserAdapter() {
     parserFactory = FactoryProvider.INSTANCE.getParserFactory();

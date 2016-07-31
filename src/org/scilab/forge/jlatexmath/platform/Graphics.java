@@ -7,7 +7,7 @@ import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Transform;
 
 public class Graphics {
-  public GraphicsFactory graphicsFactory = null;
+  private final GraphicsFactory graphicsFactory;
 
   public Graphics() {
     graphicsFactory = FactoryProvider.INSTANCE.getGraphicsFactory();
@@ -21,7 +21,7 @@ public class Graphics {
     int red = Math.round(r * 255);
     int green = Math.round(g * 255);
     int blue = Math.round(b * 255);
-    return graphicsFactory.createColor(red, green, blue);
+    return createColor(red, green, blue);
   }
 
   public BasicStroke createBasicStroke(float width, int cap, int join,

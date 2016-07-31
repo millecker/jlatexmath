@@ -1127,7 +1127,7 @@ public class TeXParser {
             String symbolName = TeXFormula.symbolMappings[c];
             if (symbolName == null && (TeXFormula.symbolFormulaMappings == null || TeXFormula.symbolFormulaMappings[c] == null)) {
 		TeXFormula.FontInfos fontInfos = null;
-		boolean isLatin = Character.UnicodeBlock.BASIC_LATIN.equals(block);
+		boolean isLatin = UnicodeBlock.BASIC_LATIN.equals(block);
 		if ((isLatin && TeXFormula.isRegisteredBlock(UnicodeBlock.BASIC_LATIN)) || !isLatin) {
 		    fontInfos = TeXFormula.getExternalFont(block);
 		}
@@ -1139,7 +1139,7 @@ public class TeXParser {
                     int end = len - 1;
                     while (pos < len) {
                         c = parseString.charAt(pos);
-                        if (!Character.UnicodeBlock.of(c).equals(block)) {
+                        if (!UnicodeBlock.of(c).equals(block)) {
                             end = --pos;
                             break;
                         }
@@ -1175,7 +1175,7 @@ public class TeXParser {
             }
         } else {
             // alphanumeric character
-            TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
+            TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(UnicodeBlock.BASIC_LATIN);
             if (fontInfos != null) {
                 if (oneChar) {
                     return new JavaFontRenderingAtom(Character.toString(c), fontInfos);

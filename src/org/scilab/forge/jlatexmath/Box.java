@@ -77,8 +77,8 @@ public abstract class Box {
 
     public static boolean DEBUG = false;
 
-    protected Geom geom;
-    protected Graphics graphics;
+    protected final Geom geom;
+    protected final Graphics graphics;
     
     /**
      * The foreground color of the whole box. Child boxes can override this color.

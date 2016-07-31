@@ -10,9 +10,9 @@ import org.scilab.forge.jlatexmath.platform.font.TextAttributeProvider;
 import org.scilab.forge.jlatexmath.platform.font.TextLayout;
 
 public class FontAdapter {
-  public FontFactory fontFactory = null;
-  public FontLoader fontLoader = null;
-  public TextAttributeProvider textAttributeProvider = null;
+  private final FontFactory fontFactory;
+  private final FontLoader fontLoader;
+  private final TextAttributeProvider textAttributeProvider;
 
   public FontAdapter() {
     fontFactory = FactoryProvider.INSTANCE.getFontFactory();

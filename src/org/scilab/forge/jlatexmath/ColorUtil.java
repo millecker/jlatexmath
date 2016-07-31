@@ -7,9 +7,8 @@ import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.graphics.GraphicsFactory;
 
-public class ColorUtil {
+public final class ColorUtil {
 
-  public static final GraphicsFactory GRAPHICS_FACTORY;
   public static final Color RED;
   public static final Color BLACK;
   public static final Color WHITE;
@@ -20,6 +19,7 @@ public class ColorUtil {
   public static final Color YELLOW;
   public static final Map<String, Color> COLOR_CONSTANTS;
   private static StringBuilder sb;
+  private static final GraphicsFactory GRAPHICS_FACTORY;
 
   static {
     GRAPHICS_FACTORY = FactoryProvider.INSTANCE.getGraphicsFactory();

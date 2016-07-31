@@ -46,7 +46,7 @@
 
 package org.scilab.forge.jlatexmath.exception;
 
-import org.scilab.forge.jlatexmath.TeXSymbolParser;
+import org.scilab.forge.jlatexmath.DefaultTeXFontParser;
 
 /**
  * Signals that an unknown symbol was used.
@@ -57,7 +57,7 @@ public class SymbolNotFoundException extends JMathTeXException {
 
     public SymbolNotFoundException(String name) {
 	super("There's no symbol with the name '" + name + "' defined in '"
-	      + TeXSymbolParser.RESOURCE_NAME + "'!");
+	      + DefaultTeXFontParser.RESOURCE_NAME + "'!");
     }
     
 }

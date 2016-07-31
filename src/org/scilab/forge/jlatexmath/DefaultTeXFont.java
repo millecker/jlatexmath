@@ -207,7 +207,9 @@ public class DefaultTeXFont implements TeXFont {
         
         Resource resource = new Resource();
         try {
-            DefaultTeXFont.addAlphabet(alphabet, resource.loadResource(lg), lg, resource.loadResource(sym), sym, resource.loadResource(map), map);
+            DefaultTeXFont.addAlphabet(alphabet, resource.loadResource(TeXFormula.class, lg), lg,
+                resource.loadResource(TeXFormula.class, sym), sym,
+                resource.loadResource(TeXFormula.class, map), map);
         } catch (FontAlreadyLoadedException e) { }
     }
 

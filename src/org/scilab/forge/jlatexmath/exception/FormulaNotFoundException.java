@@ -46,7 +46,7 @@
 
 package org.scilab.forge.jlatexmath.exception;
 
-import org.scilab.forge.jlatexmath.PredefinedTeXFormulaParser;
+import org.scilab.forge.jlatexmath.DefaultTeXFontParser;
 
 /**
  * Signals that unknown predefined TeXFormula name was used.
@@ -57,7 +57,7 @@ public class FormulaNotFoundException extends JMathTeXException {
 
     public FormulaNotFoundException(String name) {
 	super("There's no predefined TeXFormula with the name '" + name
-	      + "' defined in '" + PredefinedTeXFormulaParser.RESOURCE_NAME
+	      + "' defined in '" + DefaultTeXFontParser.RESOURCE_NAME
 	      + "'!");
     }
 }

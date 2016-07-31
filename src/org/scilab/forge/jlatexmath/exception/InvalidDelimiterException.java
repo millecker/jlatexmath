@@ -56,7 +56,7 @@ import org.scilab.forge.jlatexmath.TeXSymbolParser;
  */
 public class InvalidDelimiterException extends JMathTeXException {
 
-   protected InvalidDelimiterException(String symbolName) {
+   public InvalidDelimiterException(String symbolName) {
       super("The symbol with the name '" + symbolName
             + "' is not defined as a delimiter ("
             + TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
