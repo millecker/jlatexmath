@@ -50,7 +50,7 @@ import java.util.regex.Matcher;
 
 import org.scilab.forge.jlatexmath.exception.ParseException;
 
-public class NewCommandMacro {
+public class NewCommandMacro implements Macro {
 
     protected static HashMap<String, String> macrocode = new HashMap<String, String>();
     protected static HashMap<String, String> macroreplacement = new HashMap<String, String>();
@@ -62,7 +62,7 @@ public class NewCommandMacro {
 	//if (macrocode.get(name) != null)
 	//throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
 	macrocode.put(name, code);
-	MacroInfo.Commands.put(name, new MacroInfo("org.scilab.forge.jlatexmath.NewCommandMacro", "executeMacro", nbargs));
+	MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs));
     }
     
     public static void addNewCommand(String name, String code, int nbargs, String def) throws ParseException {
@@ -70,7 +70,7 @@ public class NewCommandMacro {
 	    throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
 	macrocode.put(name, code);
 	macroreplacement.put(name, def);
-	MacroInfo.Commands.put(name, new MacroInfo("org.scilab.forge.jlatexmath.NewCommandMacro", "executeMacro", nbargs, 1));
+	MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs, 1));
     }
     
     public static boolean isMacro(String name) {
@@ -81,7 +81,7 @@ public class NewCommandMacro {
 	if (macrocode.get(name) == null)
 	    throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
 	macrocode.put(name, code);
-	MacroInfo.Commands.put(name, new MacroInfo("org.scilab.forge.jlatexmath.NewCommandMacro", "executeMacro", nbargs));
+	MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs));
     }
     
     public String executeMacro(TeXParser tp, String[] args) {
