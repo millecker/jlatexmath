@@ -1,7 +1,7 @@
 package org.scilab.forge.jlatexmath.platform.resources;
 
-public interface ResourceLoaderFactory {
+public abstract class ResourceLoaderFactory {
 
-  ResourceLoader createResourceLoader();
+  public abstract ResourceLoader createResourceLoader();
 
 }
