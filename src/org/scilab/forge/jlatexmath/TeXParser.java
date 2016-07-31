@@ -1133,7 +1133,7 @@ public class TeXParser {
 		}
                 if (fontInfos != null) {
                     if (oneChar) {
-                        return new JavaFontRenderingAtom(Character.toString(c), fontInfos);
+                        return new JavaFontRenderingAtom(org.scilab.forge.jlatexmath.character.Character.toString(c), fontInfos);
                     }
                     int start = pos++;
                     int end = len - 1;
@@ -1150,7 +1150,7 @@ public class TeXParser {
 
                 if (!isPartial) {
                     throw new ParseException("Unknown character : '"
-                                             + Character.toString(c) + "' (or " + ((int) c) + ")");
+                                             + org.scilab.forge.jlatexmath.character.Character.toString(c) + "' (or " + ((int) c) + ")");
                 } else {
                     return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int) c) + ")}").root), null, ColorUtil.RED);
                 }
@@ -1168,7 +1168,7 @@ public class TeXParser {
                     return SymbolAtom.get(symbolName);
                 } catch (SymbolNotFoundException e) {
                     throw new ParseException("The character '"
-                                             + Character.toString(c)
+                                             + org.scilab.forge.jlatexmath.character.Character.toString(c)
                                              + "' was mapped to an unknown symbol with the name '"
                                              + symbolName + "'!", e);
                 }
@@ -1178,7 +1178,7 @@ public class TeXParser {
             TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(UnicodeBlock.BASIC_LATIN);
             if (fontInfos != null) {
                 if (oneChar) {
-                    return new JavaFontRenderingAtom(Character.toString(c), fontInfos);
+                    return new JavaFontRenderingAtom(org.scilab.forge.jlatexmath.character.Character.toString(c), fontInfos);
                 }
                 int start = pos++;
                 int end = len - 1;
