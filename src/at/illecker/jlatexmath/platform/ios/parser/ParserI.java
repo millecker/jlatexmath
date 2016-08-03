@@ -1,4 +1,4 @@
-package org.scilab.forge.jlatexmath.parser;
+package at.illecker.jlatexmath.platform.ios.parser;
 
 import java.io.InputStream;
 

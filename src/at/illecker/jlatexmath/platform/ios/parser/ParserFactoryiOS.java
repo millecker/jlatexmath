@@ -1,4 +1,4 @@
-package org.scilab.forge.jlatexmath.parser;
+package at.illecker.jlatexmath.platform.ios.parser;
 
 import org.scilab.forge.jlatexmath.platform.parser.Parser;
 import org.scilab.forge.jlatexmath.platform.parser.ParserFactory;
