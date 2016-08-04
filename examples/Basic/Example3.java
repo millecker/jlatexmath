@@ -47,10 +47,13 @@ import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Insets;
+
+import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
 
 /**
  * A class to test LaTeX rendering.
@@ -58,6 +61,8 @@ import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 public class Example3 {
     public static void main(String[] args) {
         
+        FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+      
         String latex = "\\definecolor{gris}{gray}{0.9}";
         latex += "\\definecolor{noir}{rgb}{0,0,0}";
         latex += "\\definecolor{bleu}{rgb}{0,0,1}\\newcommand{\\pa}{\\left|}";

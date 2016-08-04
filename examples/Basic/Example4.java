@@ -47,10 +47,13 @@ import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Insets;
+
+import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
 
 /**
  * A class to test LaTeX rendering.
@@ -58,6 +61,8 @@ import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 public class Example4 {
     public static void main(String[] args) {
 	
+        FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+      
 	String latex = "\\begin{array}{|c|c|c|c|}\n";
 	latex += "\\multicolumn{4}{c}{\\shadowbox{\\text{\\Huge An image from the \\LaTeX3 project}}}\\cr\n";
 	latex += "\\hline\n";

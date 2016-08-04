@@ -47,10 +47,13 @@ import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Insets;
+
+import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
 
 /**
  * A class to test LaTeX rendering.
@@ -58,6 +61,8 @@ import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 public class Example2 {
     public static void main(String[] args) {
 	
+        FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+      
 	String latex = "\\begin{array}{l}";
 	latex += "\\forall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\";
 	latex += "\\det\\begin{bmatrix}a_{11}&a_{12}&\\cdots&a_{1n}\\\\a_{21}&\\ddots&&\\vdots\\\\\\vdots&&\\ddots&\\vdots\\\\a_{n1}&\\cdots&\\cdots&a_{nn}\\end{bmatrix}\\overset{\\mathrm{def}}{=}\\sum_{\\sigma\\in\\mathfrak{S}_n}\\varepsilon(\\sigma)\\prod_{k=1}^n a_{k\\sigma(k)}\\\\";

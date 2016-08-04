@@ -47,17 +47,22 @@ import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
 import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Insets;
+
+import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
 
 /**
  * A class to test LaTeX rendering.
  **/
 public class Example7 {
 	public static void main(String[] args) {
-
+	  
+	        FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+	        
 		String latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
 		TeXFormula formula = new TeXFormula(latex);
 		formula.setDEBUG(true);

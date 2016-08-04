@@ -6,12 +6,18 @@ import javax.swing.JLabel;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
+
+import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
+import at.illecker.jlatexmath.platform.desktop.IconHelper;
 
 
 public class ExampleSwing2 {
 	public static void main(String[] args)
 	{
-        String latex = "\\text{hello world}";
+	        FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+	        
+	        String latex = "\\text{hello world}";
 		TeXFormula formula = new TeXFormula(latex);
 		TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY)
 				.setSize(16)
@@ -20,7 +26,7 @@ public class ExampleSwing2 {
 				.build();
 		
 		JFrame frame = new JFrame();
-		final JLabel label = null; // TODO new JLabel(icon);
+		final JLabel label = new JLabel(IconHelper.createIcon(icon));
 		label.setMaximumSize(new Dimension(100,300));
 		label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		frame.getContentPane().add(label);

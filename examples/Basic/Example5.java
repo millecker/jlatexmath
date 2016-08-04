@@ -46,6 +46,9 @@
 import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
+import org.scilab.forge.jlatexmath.platform.FactoryProvider;
+
+import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
 
 /**
  * A class to test LaTeX rendering.
@@ -54,6 +57,8 @@ public class Example5 {
     
     public static void main(String[] args) {
 	
+        FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+      
 	String latex = "\\begin{array}{|c|l|||r|c|}";
 	latex += "\\hline";
 	latex += "\\text{Matrix}&\\multicolumn{2}{|c|}{\\text{Multicolumns}}&\\text{Font sizes commands}\\cr";
