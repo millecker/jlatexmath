@@ -379,43 +379,6 @@ public class DefaultTeXFontParser {
     public static Font createFont(Object base, String name) throws ResourceParseException {
       FontAdapter fontAdapter = new FontAdapter();
       return fontAdapter.loadFont(base, name);
-      /*
-        try {
-            Font f = Font.createFont(Font.TRUETYPE_FONT, fontIn).deriveFont(TeXFormula.PIXELS_PER_POINT);
-	    GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    /**
-	     * The following fails under java 1.5
-	     * graphicEnv.registerFont(f);
-	     * dynamic load then
-	     */
-      /*
-	    if (shouldRegisterFonts) {
-		try {
-		    Method registerFontMethod = graphicEnv.getClass().getMethod("registerFont", new Class[] { Font.class });
-		    if ((Boolean) registerFontMethod.invoke(graphicEnv, new Object[] { f }) == Boolean.FALSE) {
-			System.err.println("Cannot register the font " + f.getFontName());
-		    }
-		} catch (Exception ex) {
-		    if (!registerFontExceptionDisplayed) {
-			System.err.println("Warning: Jlatexmath: Could not access to registerFont. Please update to java 6");
-			registerFontExceptionDisplayed = true;
-		    }
-		}
-	    }
-	    return f;
-        } catch (Exception e) {
-            throw new XMLResourceParseException(RESOURCE_NAME
-						+ ": error reading font '" + name + "'. Error message: "
-						+ e.getMessage());
-        } finally {
-            try {
-                if (fontIn != null)
-                    fontIn.close();
-            } catch (IOException ioex) {
-                throw new RuntimeException("Close threw exception", ioex);
-            }
-        }
-        */
     }
     
     public Map<String,CharFont> parseSymbolMappings() throws ResourceParseException {
