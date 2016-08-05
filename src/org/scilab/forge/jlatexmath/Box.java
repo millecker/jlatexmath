@@ -48,7 +48,7 @@
 
 package org.scilab.forge.jlatexmath;
 
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.scilab.forge.jlatexmath.platform.Geom;
@@ -296,8 +296,7 @@ public abstract class Box {
         prevColor = g2.getColor();
         if (background != null) { // draw background
             g2.setColor(background);
-            // TODO
-            //g2.fill(new Rectangle2D.Float(x, y - height, width, height + depth));
+            g2.fill(geom.createRectangle2D(x, y - height, width, height + depth));
         }
         if (foreground == null) {
             g2.setColor(prevColor); // old foreground color
@@ -354,5 +353,45 @@ public abstract class Box {
      */
     protected void endDraw(Graphics2DInterface g2) {
         g2.setColor(prevColor);
+    }
+
+    public void getPath(float x, float y, ArrayList<Integer> list) {
+      list.add(0);
+      if (children.size() > 0) {
+        children.get(0).getPath(x, y, list);
+      }
+    }
+
+    public boolean getSelectedPath(ArrayList<Integer> list, int depth) {
+
+      for (int idx = 0; idx < children.size(); idx++) {
+        if (children.get(idx).getSelectedPath(list, depth + 1)) {
+          list.add(idx);
+          return true;  
+        }
+      }
+      // System.out.println(this + " BOX " + this.foreground);
+      if (this.foreground != null) {
+        return true;
+      }
+      return false;
+    }
+
+    @Override
+    public String toString(){
+      StringBuilder sb = new StringBuilder();
+      append(sb, 0);
+      return sb.toString();
+    }
+
+    private void append(StringBuilder sb, int offset) {
+      for (int i = 0; i < offset; i++) {
+        sb.append("  ");
+      }
+      sb.append(getClass().getSimpleName().replace("Box", ""));
+      sb.append("\n");
+      for (int i = 0; i < children.size(); i++) {
+        children.get(i).append(sb, offset + 1);
+      }
     }
 }

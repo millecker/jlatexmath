@@ -91,7 +91,7 @@ public class DefaultTeXFont implements TeXFont {
     private static Map<String, Float> parameters;
     private static Map<String, Number> generalSettings;
 
-    private static boolean magnificationEnable = true;
+    // private static boolean magnificationEnable = true;
     
     protected static final int TOP = 0, MID = 1, REP = 2, BOT = 3;
 
@@ -137,6 +137,12 @@ public class DefaultTeXFont implements TeXFont {
     }
 
     private final float size; // standard size
+
+    public static Font getFont(int fontId) {
+      FontInfo info = fontInfo[fontId];
+      Font font = info.getFont();
+      return font;
+    }
 
     public DefaultTeXFont(float pointSize) {
         size = pointSize;
@@ -409,6 +415,9 @@ public class DefaultTeXFont implements TeXFont {
     private Metrics getMetrics(CharFont cf, float size) {
         FontInfo info = fontInfo[cf.fontId];
         float[] m = info.getMetrics(cf.c);
+        if (m == null) {
+          return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT, size);
+        }
         return new Metrics(m[WIDTH], m[HEIGHT], m[DEPTH], m[IT], size * TeXFormula.PIXELS_PER_POINT, size);
     }
 
@@ -552,23 +561,29 @@ public class DefaultTeXFont implements TeXFont {
     }
 
     public static void setMathSizes(float ds, float ts, float ss, float sss) {
+        /*    
         if (magnificationEnable) {
             generalSettings.put("scriptfactor", Math.abs(ss / ds));
             generalSettings.put("scriptscriptfactor", Math.abs(sss / ds));
             generalSettings.put("textfactor", Math.abs(ts / ds));
             TeXIcon.defaultSize = Math.abs(ds);
         }
+        */
     }
 
     public static void setMagnification(float mag) {
+        /*
         if (magnificationEnable) {
             TeXIcon.magFactor = mag / 1000f;
         }
+        */
     }
 
+    /*
     public static void enableMagnification(boolean b) {
         magnificationEnable = b;
     }
+    */
 
     private static float getParameter(String parameterName) {
         Object param = parameters.get(parameterName);

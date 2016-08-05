@@ -103,7 +103,7 @@ public class GlueSettingsParser {
         Element types = root.getElementsByTagName("GlueTypes").item(0).castToElement();
         int defaultIndex = -1;
         int index = 0;
-        if (types != null) { // element present
+        if (!types.isNull()) { // element present
 	    NodeList list = types.getElementsByTagName("GlueType");
             for (int i = 0; i < list.getLength(); i++) {
                 Element type = list.item(i).castToElement();
@@ -175,7 +175,7 @@ public class GlueSettingsParser {
         int size = typeMappings.size();
         int[][][] table = new int[size][size][styleMappings.size()];
         Element glueTable = root.getElementsByTagName("GlueTable").item(0).castToElement();
-        if (glueTable != null) { // element present
+        if (!glueTable.isNull()) { // element present
             // iterate all the "Glue"-elements
 	    NodeList list = glueTable.getElementsByTagName("Glue");
             for (int i = 0; i < list.getLength(); i++) {

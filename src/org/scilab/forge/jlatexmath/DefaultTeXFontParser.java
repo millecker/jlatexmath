@@ -307,7 +307,7 @@ public class DefaultTeXFontParser {
     
     public FontInfo[] parseFontDescriptions(FontInfo[] fi) throws ResourceParseException {
 	Element fontDescriptions = root.getElementsByTagName("FontDescriptions").item(0).castToElement();
-        if (fontDescriptions != null) { // element present
+        if (!fontDescriptions.isNull()) { // element present
 	    NodeList list = fontDescriptions.getElementsByTagName("Metrics");
             for (int i = 0; i < list.getLength(); i++) {
 		// get required string attribute
@@ -324,13 +324,13 @@ public class DefaultTeXFontParser {
 
     protected void parseExtraPath() throws ResourceParseException {
 	Element syms = root.getElementsByTagName("TeXSymbols").item(0).castToElement();
-        if (syms != null) { // element present
+        if (!syms.isNull()) { // element present
 	    // get required string attribute
 	    String include = getAttrValueAndCheckIfNotNull("include", syms);
 	    SymbolAtom.addSymbolAtom(resource.loadResource(base, include), include);
 	}
 	Element settings = root.getElementsByTagName("FormulaSettings").item(0).castToElement();
-        if (settings != null) { // element present
+        if (!settings.isNull()) { // element present
 	    // get required string attribute
 	    String include = getAttrValueAndCheckIfNotNull("include", settings);
 	    TeXFormula.addSymbolMappings(resource.loadResource(base, include), include);
@@ -384,7 +384,7 @@ public class DefaultTeXFontParser {
     public Map<String,CharFont> parseSymbolMappings() throws ResourceParseException {
         Map<String,CharFont> res = new HashMap<String,CharFont>();
         Element symbolMappings = root.getElementsByTagName("SymbolMappings").item(0).castToElement();
-        if (symbolMappings == null)
+        if (symbolMappings.isNull())
             // "SymbolMappings" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "SymbolMappings");
         else { // element present
@@ -434,7 +434,7 @@ public class DefaultTeXFontParser {
         String[] res = new String[4];
         Element defaultTextStyleMappings = root
 	    .getElementsByTagName("DefaultTextStyleMapping").item(0).castToElement();
-        if (defaultTextStyleMappings == null)
+        if (defaultTextStyleMappings.isNull())
             return res;
         else { // element present
             // iterate all mappings
@@ -475,7 +475,7 @@ public class DefaultTeXFontParser {
     public Map<String,Float> parseParameters() throws ResourceParseException {
         Map<String,Float> res = new HashMap<String,Float>();
         Element parameters = root.getElementsByTagName("Parameters").item(0).castToElement();
-        if (parameters == null)
+        if (parameters.isNull())
             // "Parameters" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "Parameters");
         else { // element present
@@ -494,7 +494,7 @@ public class DefaultTeXFontParser {
         Map <String,Number>res = new HashMap<String,Number>();
         // TODO: must this be 'Number' ?
         Element generalSettings = root.getElementsByTagName("GeneralSettings").item(0).castToElement();
-        if (generalSettings == null)
+        if (generalSettings.isNull())
             // "GeneralSettings" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "GeneralSettings");
         else { // element present
@@ -518,7 +518,7 @@ public class DefaultTeXFontParser {
     private Map<String,CharFont[]> parseStyleMappings() throws ResourceParseException {
         Map<String,CharFont[]> res = new HashMap<String,CharFont[]>();
         Element textStyleMappings = root.getElementsByTagName("TextStyleMappings").item(0).castToElement();
-        if (textStyleMappings == null)
+        if (textStyleMappings.isNull())
 	    return res;
         else { // element present
             // iterate all mappings

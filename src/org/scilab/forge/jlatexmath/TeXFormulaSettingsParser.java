@@ -77,13 +77,13 @@ public class TeXFormulaSettingsParser {
 
     public void parseSymbolToFormulaMappings(String[] mappings, String[] textMappings) throws ResourceParseException {
         Element charToSymbol = root.getElementsByTagName("CharacterToFormulaMappings").item(0).castToElement();
-        if (charToSymbol != null) // element present
+        if (!charToSymbol.isNull()) // element present
             addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
     }
 
     public void parseSymbolMappings(String[] mappings, String[] textMappings) throws ResourceParseException {
         Element charToSymbol = root.getElementsByTagName("CharacterToSymbolMappings").item(0).castToElement();
-        if (charToSymbol != null) // element present
+        if (!charToSymbol.isNull()) // element present
             addToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
     }
 

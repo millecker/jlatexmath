@@ -71,15 +71,20 @@ public class MacroInfo {
     }
 
     public MacroInfo(int nbArgs, int posOpts) {
-	this((Macro) null, nbArgs, posOpts);
+	this(null, nbArgs, posOpts);
     }
 
     public MacroInfo(int nbArgs) {
-	this((Macro) null, nbArgs);
+	this(null, nbArgs);
     }
     
     public Object invoke(final TeXParser tp, final String[] args) throws ParseException {
-        return macro.executeMacro(tp, args);
+        try {
+          return macro.executeMacro(tp, args);
+        } catch (Exception e) {
+          throw new ParseException("Problem with command " + args[0] + " at position " + tp.getLine() + ":"
+              + tp.getCol() + "\n" + e.getMessage());
+        }
         /*
         Object[] argsMethod = {(Object) tp, (Object) args};
 	try {

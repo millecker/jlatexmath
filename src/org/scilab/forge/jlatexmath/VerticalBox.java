@@ -46,6 +46,7 @@
 
 package org.scilab.forge.jlatexmath;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
@@ -133,5 +134,22 @@ class VerticalBox extends Box {
             fontId = ((Box) it.previous()).getLastFontId();
 
         return fontId;
+    }
+
+    @Override
+    public void getPath(float x, float y, ArrayList<Integer> list) {
+      float yPos = 0;
+      for (Box box : children) {
+        if (yPos + box.getHeight() + box.getDepth() > y) {
+          list.add(children.indexOf(box));
+          box.getPath(x, y - yPos, list);
+          return;
+        }
+        yPos += box.getHeight() + box.getDepth();
+      }
+      if (y > yPos) {
+        list.add(children.size() - 1);
+        children.get(children.size() - 1).getPath(x, y - yPos, list);
+      }
     }
 }

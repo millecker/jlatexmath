@@ -48,7 +48,6 @@ package org.scilab.forge.jlatexmath;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.scilab.forge.jlatexmath.platform.Graphics;
 import org.scilab.forge.jlatexmath.platform.graphics.Color;
