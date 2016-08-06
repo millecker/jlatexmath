@@ -134,6 +134,8 @@ public class PlatformBasicTest {
     String latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
 
     TeXFormula formula = TeXUtils.createTeXFormula(latex);
+    formula.setDEBUG(true);
+
     TeXIcon icon = formula.new TeXIconBuilder()
         .setStyle(TeXConstants.STYLE_DISPLAY).setSize(30)
         .setWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
@@ -142,7 +144,7 @@ public class PlatformBasicTest {
     icon.setInsets(new Insets(5, 5, 5, 5));
 
     Image image = TeXUtils.createImage(icon, ColorUtil.WHITE, ColorUtil.BLACK,
-        false, 0);
+        false, Image.TYPE_INT_ARGB);
     verifyImage(image, "Example7");
   }
 
