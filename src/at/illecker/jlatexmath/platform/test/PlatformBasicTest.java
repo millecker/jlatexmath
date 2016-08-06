@@ -1,15 +1,6 @@
 package at.illecker.jlatexmath.platform.test;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import javax.imageio.ImageIO;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -18,14 +9,12 @@ import org.scilab.forge.jlatexmath.ColorUtil;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
-import org.scilab.forge.jlatexmath.exception.ResourceParseException;
 import org.scilab.forge.jlatexmath.platform.FactoryProvider;
-import org.scilab.forge.jlatexmath.platform.graphics.Graphics2DInterface;
+import org.scilab.forge.jlatexmath.platform.graphics.Color;
 import org.scilab.forge.jlatexmath.platform.graphics.Image;
 import org.scilab.forge.jlatexmath.platform.graphics.Insets;
 
 import at.illecker.jlatexmath.platform.desktop.FactoryProviderDesktop;
-import at.illecker.jlatexmath.platform.desktop.graphics.ImageD;
 
 public class PlatformBasicTest {
 
@@ -37,7 +26,8 @@ public class PlatformBasicTest {
   @Test
   public void basicExample1() {
     String latex = "\\begin{array}{lr}\\mbox{\\textcolor{Blue}{Russian}}&\\mbox{\\textcolor{Melon}{Greek}}\\\\";
-    latex += "\\mbox{" + "привет мир".toUpperCase() + "}&\\mbox{" + "γειά κόσμο".toUpperCase() + "}\\\\";
+    latex += "\\mbox{" + "привет мир".toUpperCase() + "}&\\mbox{"
+        + "γειά κόσμο".toUpperCase() + "}\\\\";
     latex += "\\mbox{привет мир}&\\mbox{γειά κόσμο}\\\\";
     latex += "\\mathbf{\\mbox{привет мир}}&\\mathbf{\\mbox{γειά κόσμο}}\\\\";
     latex += "\\mathit{\\mbox{привет мир}}&\\mathit{\\mbox{γειά κόσμο}}\\\\";
@@ -53,8 +43,8 @@ public class PlatformBasicTest {
     latex += "\\mbox{\\textcolor{Turquoise}{Bielorussian}}&\\mbox{\\textcolor{LimeGreen}{Ukrainian}}\\\\";
     latex += "\\mbox{прывітаньне Свет}&\\mbox{привіт світ}\\\\";
     latex += "\\end{array}";
-    
-    doTest(latex, "Example1");
+
+    doTest(latex, 20, 5, "Example1");
   }
 
   @Test
@@ -70,9 +60,9 @@ public class PlatformBasicTest {
     latex += "\\begin{array}{rl} s &= \\int_a^b\\left\\|\\frac{d}{dt}\\vec{r}\\,(u(t),v(t))\\right\\|\\,dt \\\\ &= \\int_a^b \\sqrt{u'(t)^2\\,\\vec{r}_u\\cdot\\vec{r}_u + 2u'(t)v'(t)\\, \\vec{r}_u\\cdot\\vec{r}_v+ v'(t)^2\\,\\vec{r}_v\\cdot\\vec{r}_v}\\,\\,\\, dt. \\end{array}\\\\";
     latex += "\\end{array}";
 
-    doTest(latex, "Example2");
+    doTest(latex, 20, 5, "Example2");
   }
-  
+
   @Test
   public void basicExample3() {
     String latex = "\\definecolor{gris}{gray}{0.9}";
@@ -96,9 +86,9 @@ public class PlatformBasicTest {
     latex += "\\rotatebox{30}{\\sum_{n=1}^{+\\infty}}\\quad\\mbox{Mirror rorriM}\\reflectbox{\\mbox{Mirror rorriM}}";
     latex += "\\end{array}";
 
-    doTest(latex, "Example3");
+    doTest(latex, 20, 5, "Example3");
   }
-  
+
   @Test
   public void basicExample4() {
     String latex = "\\begin{array}{|c|c|c|c|}\n";
@@ -110,9 +100,9 @@ public class PlatformBasicTest {
     latex += "\\hline\n";
     latex += "\\end{array}\n";
 
-    doTest(latex, "Example4");
+    doTest(latex, 10, 5, "Example4");
   }
-  
+
   @Test
   public void basicExample5() {
     String latex = "\\begin{array}{|c|l|||r|c|}";
@@ -125,7 +115,8 @@ public class PlatformBasicTest {
     latex += "\\hline";
     latex += "\\end{array}";
 
-    doTest(latex, "Example5");
+    doTest(latex, 20, 1, ColorUtil.WHITE, ColorUtil.BLACK, false,
+        Image.TYPE_INT_RGB, "Example5");
   }
 
   @Test
@@ -135,21 +126,45 @@ public class PlatformBasicTest {
     latex += "\\doublebox{\\text{A double framed box}}&\\ovalbox{\\text{An oval framed box}}\\cr";
     latex += "\\end{array}";
 
-    doTest(latex, "Example6");
+    doTest(latex, 30, 5, "Example6");
   }
-  
+
   @Test
   public void basicExample7() {
     String latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
 
-    doTest(latex, "Example7");
-  }
-  
-  private void doTest(String latex, String exampleName) {
-    TeXIcon icon = createTeXIcon(latex);
-    Image image = createImage(icon);
+    TeXFormula formula = TeXUtils.createTeXFormula(latex);
+    TeXIcon icon = formula.new TeXIconBuilder()
+        .setStyle(TeXConstants.STYLE_DISPLAY).setSize(30)
+        .setWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
+        .setInterLineSpacing(TeXConstants.UNIT_CM, 0.5f).build();
 
-    ImageUtils.writeImage(image, "Test_" + exampleName + ".png"); // test output
+    icon.setInsets(new Insets(5, 5, 5, 5));
+
+    Image image = TeXUtils.createImage(icon, ColorUtil.WHITE, ColorUtil.BLACK,
+        false, 0);
+    verifyImage(image, "Example7");
+  }
+
+  private void doTest(String latex, float size, int insets,
+      String exampleName) {
+    doTest(latex, size, insets, ColorUtil.WHITE, ColorUtil.BLACK, false,
+        Image.TYPE_INT_ARGB, exampleName);
+  }
+
+  private void doTest(String latex, float size, int insets, Color bg, Color fg,
+      boolean transparency, int imageType, String exampleName) {
+
+    TeXFormula formula = TeXUtils.createTeXFormula(latex);
+    TeXIcon icon = TeXUtils.createTeXIcon(formula, TeXConstants.STYLE_DISPLAY,
+        size, insets);
+    Image image = TeXUtils.createImage(icon, bg, fg, transparency, imageType);
+    verifyImage(image, exampleName);
+  }
+
+  private void verifyImage(Image image, String exampleName) {
+    // test output
+    ImageUtils.writeImage(image, "Test_" + exampleName + ".png");
 
     byte[] imageBytes = ImageUtils.getImageBytes(image);
     byte[] expectedBytes = IOUtils.loadResourceFile(exampleName + ".png");
@@ -160,30 +175,6 @@ public class PlatformBasicTest {
         (BufferedImage) image);
     Assert.assertTrue(compare);
     Assert.assertArrayEquals(expectedBytes, imageBytes);
-  }
-
-  private TeXIcon createTeXIcon(String latex) {
-    TeXFormula formula = null;
-    try {
-      formula = new TeXFormula(latex);
-    } catch (Throwable e) {
-      e.printStackTrace();
-    }
-    TeXIcon icon = formula.new TeXIconBuilder()
-        .setStyle(TeXConstants.STYLE_DISPLAY).setSize(20).build();
-
-    icon.setInsets(new Insets(5, 5, 5, 5));
-    return icon;
-  }
-
-  private Image createImage(TeXIcon icon) {
-    Image image = new ImageD(icon.getIconWidth(), icon.getIconHeight(),
-        Image.TYPE_INT_ARGB);
-    Graphics2DInterface g2 = image.createGraphics2D();
-    g2.setColor(ColorUtil.WHITE);
-    g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
-    icon.paintIcon(null, g2, 0, 0);
-    return image;
   }
 
 }
